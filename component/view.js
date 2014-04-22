@@ -4,7 +4,9 @@
 'use strict';
 
 var _ = require('lodash');
-var template = require('./template.hbs');
+var commentTemplate = require('./templates/comment.hbs');
+var responseTemplate = require('./templates/response.hbs');
+var sectionTemplate = require('./templates/section.hbs');
 
 module.exports = CommentView;
 
@@ -17,6 +19,7 @@ function CommentView(post) {
   this._parseContent();
   this._labelSections();
   this._renderSections();
+  this._registerListeners();
 }
 
 CommentView.prototype._parseContent = function() {
@@ -36,7 +39,6 @@ CommentView.prototype._labelSections = function() {
     var $el = $(el);
 
     $el.data(CommentView.NAMESPACE + '-section-name', sectionName);
-    $el.append('<br><div class="ouija-comment-container"><p>----------</p></div>');
 
     self._sections[sectionName] = $(el);
   });
@@ -47,15 +49,25 @@ CommentView.prototype._renderSections = function() {
 };
 
 CommentView.prototype._renderComments = function($section, sectionName) {
-  this._post.getComments(sectionName).then(function(sectionComments) {
-    if (!sectionComments) return;
+  $section.append(sectionTemplate({sectionName: sectionName}));
 
-    var commentsHtml = _.reduce(sectionComments, function(collection, comment) {
-      collection.push(template(comment));
+  this._post.getComments(sectionName)
+    .then(function(sectionComments) {
+      if (!sectionComments) return;
 
-      return collection;
-    }, []);
+      var commentsHtml = _.reduce(sectionComments, function(collection, comment) {
+        collection.push(commentTemplate(comment));
 
-    $section.find('.ouija-comment-container').append(commentsHtml.join(''));
-  });
+        return collection;
+      }, []);
+
+      $section.find('.ouija-section').append(commentsHtml.join(''));
+    })
+    .then(function() {
+      $section.find('.ouija-section').append(responseTemplate());
+    });
+};
+
+CommentView.prototype._registerListeners = function() {
+
 };
