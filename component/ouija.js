@@ -66,11 +66,13 @@ Ouija.prototype._labelSections = function() {
 
 // TODO: Move into dedicated 'view' class
 Ouija.prototype._renderSections = function() {
-  _.each(this._sections, this._renderComments);
+  _.each(this._sections, this._renderComments.bind(this));
 };
 
 Ouija.prototype._renderComments = function($section, sectionName) {
-  this._post.getComments(sectionName).then(function() {
-    console.log(arguments);
+  this._post.getComments(sectionName).then(function(sectionComments) {
+    if (!sectionComments) return;
+
+    console.log(sectionComments);
   });
 };

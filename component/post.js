@@ -12,7 +12,8 @@ function Post(identifier, connection) {
   _.extend(this, {
     _identifier: identifier,
     _postRoom: connection.get('rooms').get(1).invoke('join').get('room'),
-    _comments: {}
+    _comments: {},
+    _cached: Q.defer()
   });
 
   this._initialize();
@@ -29,9 +30,8 @@ Post.prototype._fetchComments = function() {
     .invoke('get')
     .get('value')
     .then(this._cacheComments.bind(this))
-    .fail(function(err) {
-      console.log('error fetching comments', err);
-    });
+    .then(this._cached.resolve)
+    .fail(this._cached.reject);
 };
 
 // TODO: add set/remove handlers
@@ -57,6 +57,8 @@ Post.prototype._cacheComments = function(comments) {
 
     return collection;
   }, {});
+
+  return this._comments;
 };
 
 Post.prototype.addComment = function(sectionName, comment) {
@@ -68,5 +70,9 @@ Post.prototype.addComment = function(sectionName, comment) {
 };
 
 Post.prototype.getComments = function(sectionName) {
-  // body...
+  var self = this;
+
+  return this._cached.promise.then(function() {
+    return self._comments[sectionName] || null;
+  });
 };
