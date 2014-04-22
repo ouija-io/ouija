@@ -15,7 +15,7 @@ var pathTo = {
 // Compile ES6 modules and drop them into the Capser theme directory
 gulp.task('develop', function() {
   gulp.src(pathTo.entry)
-    .pipe(plugins.browserify())
+    .pipe(plugins.browserify({ debug: true }))
     .pipe(plugins.rename('ouija.js'))
     .pipe(gulp.dest(pathTo.casperTheme));
 });
