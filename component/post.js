@@ -1,5 +1,5 @@
 /* jshint browser:true */
-/* global require, module, goinstant, $ */
+/* global require, module */
 
 'use strict';
 
@@ -19,6 +19,7 @@ function Post(identifier, connection) {
 
 Post.prototype._initialize = function() {
   this._fetchComments();
+  this._observeChanges();
 };
 
 Post.prototype._fetchComments = function() {
@@ -27,32 +28,38 @@ Post.prototype._fetchComments = function() {
     .invoke('get')
     .get('value')
     .then(this._cacheComments.bind(this))
-    .fail(function() {
-      console.log('error fetching comments', arguments);
+    .fail(function(err) {
+      console.log('error fetching comments', err);
     });
 };
 
+Post.prototype._observeChanges = function() {
+  var options = { bubble: true, local: true };
+
+  this._postRoom
+    .invoke('key', '/sections')
+    .invoke('on', 'add', options, this._addHandler.bind(this));
+};
+
+Post.prototype._addHandler = function(comment, context) {
+  var sectionName = _.last(context.key.split('/'));
+  var commentId = _.last(context.addedKey.split('/'));
+
+  this._comments[sectionName] = this._comments[sectionName] || {};
+  this._comments[sectionName][commentId] = comment;
+};
+
+// TODO: collapse timestamp into comment object;
 Post.prototype._cacheComments = function(comments) {
   this._comments = _.reduce(comments, function(collection, comment, key) {
     collection[key] = comment;
 
     return collection;
   }, {});
-
-  console.log('cached comments', this._comments);
 };
 
-Post.prototype.addComment = function(sectionName) {
-  this._postRoom
+Post.prototype.addComment = function(sectionName, comment) {
+  return this._postRoom
     .invoke('key', '/sections/' + sectionName)
-    .invoke('set', {
-      "author": 0,
-      "content": "a sweet comment",
-      "createdOn": "2011-01-27T11:40:52.280Z"
-    })
-    .then(function() {
-      console.log(arguments)
-    }, function() {
-      console.log('error', arguments)
-    })
+    .invoke('add', comment);
 };
