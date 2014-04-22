@@ -1,12 +1,12 @@
 /* jshint browser:true */
-/* global require, module, goinstant, $ */
+/* global require, module, goinstant */
 
 'use strict';
 
 var _ = require('lodash');
 var Post = require('./post');
-var template = require('./template.hbs');
 var Users = require('./users');
+var CommentView = require('./view');
 
 module.exports = Ouija;
 
@@ -37,10 +37,9 @@ Ouija.prototype.initialize = function() {
     console.log(guest);
   });
 
-  this._post = new Post(this._identifier, this._connection);
-  this._parseContent();
-  this._labelSections();
-  this._renderSections();
+  var post = new Post(this._identifier, this._connection);
+
+  this._view = new CommentView(post);
 };
 
 Ouija.prototype._connect = function() {
@@ -57,46 +56,4 @@ Ouija.prototype._getIdentifier = function() {
   }
 
   return 'post_' + window.ouija_identifier;
-};
-
-Ouija.prototype._parseContent = function() {
- this._el.content = $('.post-content');
- this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
-  return _($(el).text()).isEmpty();
- });
-};
-
-Ouija.prototype._labelSections = function() {
-  var self = this;
-
-  this._sections = {};
-
-  _.each(this._el.sections, function(el, index) {
-    var sectionName = 'section_' + index;
-    var $el = $(el);
-
-    $el.data(Ouija.NAMESPACE + '-section-name', sectionName);
-    $el.append('<br><div class="ouija-comment-container"><p>----------</p></div>');
-
-    self._sections[sectionName] = $(el);
-  });
-};
-
-// TODO: Move into dedicated 'view' class
-Ouija.prototype._renderSections = function() {
-  _.each(this._sections, this._renderComments.bind(this));
-};
-
-Ouija.prototype._renderComments = function($section, sectionName) {
-  this._post.getComments(sectionName).then(function(sectionComments) {
-    if (!sectionComments) return;
-
-    var commentsHtml = _.reduce(sectionComments, function(collection, comment) {
-      collection.push(template(comment));
-
-      return collection;
-    }, []);
-
-    $section.find('.ouija-comment-container').append(commentsHtml.join(''));
-  });
 };
