@@ -4,6 +4,7 @@
 'use strict';
 
 var _ = require('lodash');
+var Post = require('./post');
 
 module.exports = Ouija;
 
@@ -19,16 +20,17 @@ Ouija.NAMESPACE = 'ouija';
 
 Ouija.prototype.initialize = function() {
   this._connection = this._connect();
+  this._post = new Post(this._identifier, this._connection);
   this._parseContent();
   this._labelSections();
 };
 
 Ouija.prototype._connect = function() {
   var options = {
-    room: this._getIdentifier()
+    room: ['lobby', this._getIdentifier()]
   };
 
-  return goinstant.connect(this._url, options).get('rooms').get(0);
+  return goinstant.connect(this._url, options);
 };
 
 Ouija.prototype._getIdentifier = function() {
@@ -36,7 +38,7 @@ Ouija.prototype._getIdentifier = function() {
     return _.reject(document.location.pathname.split('/'), _.isEmpty)[0];
   }
 
-  return 'id_' + window.ouija_identifier;
+  return 'post_' + window.ouija_identifier;
 };
 
 Ouija.prototype._parseContent = function() {
