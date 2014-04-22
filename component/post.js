@@ -51,12 +51,17 @@ Post.prototype._addHandler = function(comment, context) {
 };
 
 // TODO: collapse timestamp into comment object;
-Post.prototype._cacheComments = function(comments) {
-  this._comments = _.reduce(comments, function(collection, comment, key) {
-    collection[key] = comment;
+Post.prototype._cacheComments = function(sections) {
+  var self = this;
 
-    return collection;
-  }, {});
+  _(sections).each(function(comments, sectionName) {
+    self._comments[sectionName] = _.reduce(comments, function(o, comment, id) {
+      comment.id = id;
+      o[id] = comment;
+
+      return o;
+    }, {});
+  });
 
   return this._comments;
 };
@@ -74,5 +79,7 @@ Post.prototype.getComments = function(sectionName) {
 
   return this._cached.promise.then(function() {
     return self._comments[sectionName] || null;
+  }, function() {
+    console.log(arguments)
   });
 };

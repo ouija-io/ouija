@@ -8,14 +8,14 @@ var plugins = gulpLoadPlugins();
 
 var pathTo = {
   entry: 'component/index.js',
-  watch: 'component/**.js',
+  watch: ['component/**.js', 'component/template.hbs'],
   casperTheme: '../../themes/casper/assets/js/'
 };
 
 // Compile ES6 modules and drop them into the Capser theme directory
 gulp.task('develop', function() {
   gulp.src(pathTo.entry)
-    .pipe(plugins.browserify({ debug: true }))
+    .pipe(plugins.browserify({ debug: true, transform: ['hbsfy'] }))
     .pipe(plugins.rename('ouija.js'))
     .pipe(gulp.dest(pathTo.casperTheme));
 });

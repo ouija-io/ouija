@@ -5,6 +5,7 @@
 
 var _ = require('lodash');
 var Post = require('./post');
+var template = require('./template.hbs');
 
 module.exports = Ouija;
 
@@ -59,6 +60,7 @@ Ouija.prototype._labelSections = function() {
     var $el = $(el);
 
     $el.data(Ouija.NAMESPACE + '-section-name', sectionName);
+    $el.append('<br><div class="ouija-comment-container"><p>----------</p></div>');
 
     self._sections[sectionName] = $(el);
   });
@@ -73,6 +75,12 @@ Ouija.prototype._renderComments = function($section, sectionName) {
   this._post.getComments(sectionName).then(function(sectionComments) {
     if (!sectionComments) return;
 
-    console.log(sectionComments);
+    var commentsHtml = _.reduce(sectionComments, function(collection, comment) {
+      collection.push(template(comment));
+
+      return collection;
+    }, []);
+
+    $section.find('.ouija-comment-container').append(commentsHtml.join(''));
   });
 };
