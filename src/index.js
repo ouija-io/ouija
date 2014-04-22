@@ -3,19 +3,16 @@
 
 'use strict';
 
-var Connection = require('./goinstant-connection');
-var _ = require('lodash');
+// Ouija component class
+var Ouija = require('./ouija');
 
-var conn = new Connection({
-  connectUrl: 'https://goinstant.net/mattcreager/ouija-example'
-});
+var config = {
+  // Unique identifier for each page where Ouija is present
+  identifier: window.ouija_identifier,
+  // GoInstant connect URL
+  connect_url: window.ouija_connect_url
+};
 
-conn.ready().then(function(lobby) {
-  console.log(lobby);
-});
+var ouija = new Ouija(config);
 
-function getCurrentPost() {
-  return _.reject(document.location.pathname.split('/'), _.isEmpty)[0];
-}
-
-console.log(getCurrentPost());
+ouija.initialize();
