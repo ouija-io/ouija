@@ -6,6 +6,7 @@
 var _ = require('lodash');
 var Post = require('./post');
 var template = require('./template.hbs');
+var Users = require('./users');
 
 module.exports = Ouija;
 
@@ -21,6 +22,21 @@ Ouija.NAMESPACE = 'ouija';
 
 Ouija.prototype.initialize = function() {
   this._connection = this._connect();
+
+  // test
+  var users = new Users(this._connection);
+  users.getSelf().then(function(me) {
+    console.log(me, 'getSelf');
+
+    users.getUser('guest:LipVmi7Trb8za9cpZKtHIQ').then(function(user) {
+      console.log(user, 'getUser');
+    });
+  });
+
+  users.isGuest().then(function(guest) {
+    console.log(guest);
+  });
+
   this._post = new Post(this._identifier, this._connection);
   this._parseContent();
   this._labelSections();
