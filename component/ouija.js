@@ -23,6 +23,7 @@ Ouija.prototype.initialize = function() {
   this._post = new Post(this._identifier, this._connection);
   this._parseContent();
   this._labelSections();
+  this._renderSections();
 };
 
 Ouija.prototype._connect = function() {
@@ -54,11 +55,22 @@ Ouija.prototype._labelSections = function() {
   this._sections = {};
 
   _.each(this._el.sections, function(el, index) {
-    var sectionName = 'sect_' + index;
+    var sectionName = 'section_' + index;
     var $el = $(el);
 
     $el.data(Ouija.NAMESPACE + '-section-name', sectionName);
 
     self._sections[sectionName] = $(el);
+  });
+};
+
+// TODO: Move into dedicated 'view' class
+Ouija.prototype._renderSections = function() {
+  _.each(this._sections, this._renderComments);
+};
+
+Ouija.prototype._renderComments = function($section, sectionName) {
+  this._post.getComments(sectionName).then(function() {
+    console.log(arguments);
   });
 };

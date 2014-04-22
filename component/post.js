@@ -4,6 +4,7 @@
 'use strict';
 
 var _ = require('lodash');
+var Q = require('q');
 
 module.exports = Post;
 
@@ -33,12 +34,12 @@ Post.prototype._fetchComments = function() {
     });
 };
 
+// TODO: add set/remove handlers
 Post.prototype._observeChanges = function() {
   var options = { bubble: true, local: true };
+  var futureKey = this._postRoom.invoke('key', '/sections');
 
-  this._postRoom
-    .invoke('key', '/sections')
-    .invoke('on', 'add', options, this._addHandler.bind(this));
+  futureKey.invoke('on', 'add', options, this._addHandler.bind(this));
 };
 
 Post.prototype._addHandler = function(comment, context) {
@@ -59,7 +60,13 @@ Post.prototype._cacheComments = function(comments) {
 };
 
 Post.prototype.addComment = function(sectionName, comment) {
+  var keyName = 'sections/' + sectionName;
+
   return this._postRoom
-    .invoke('key', '/sections/' + sectionName)
+    .invoke('key', keyName)
     .invoke('add', comment);
+};
+
+Post.prototype.getComments = function(sectionName) {
+  // body...
 };
