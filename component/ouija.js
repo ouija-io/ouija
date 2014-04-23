@@ -37,9 +37,14 @@ Ouija.prototype.initialize = function() {
     console.log(guest);
   });
 
-  var post = new Post(this._identifier, this._connection);
+  this._post = new Post(this._identifier, this._connection);
+  this._view = new CommentView(this._post); // TODO: not this
 
-  this._view = new CommentView(post);
+  this._observePost();
+};
+
+Ouija.prototype._observePost = function() {
+  this._post.on('newComment', this._view.add);
 };
 
 Ouija.prototype._connect = function() {

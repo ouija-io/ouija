@@ -21,6 +21,8 @@ function CommentView(post) {
   this._labelSections();
   this._renderSections();
   this._registerListeners();
+
+  _.bindAll(this, ['add']);
 }
 
 CommentView.prototype._parseContent = function() {
@@ -51,6 +53,7 @@ CommentView.prototype._renderSections = function() {
 
 // Controller logic drifting into the view here
 CommentView.prototype._renderComments = function($section, sectionName) {
+  $section.empty();
   $section.append(sectionTemplate({sectionName: sectionName}));
 
   this._post.getComments(sectionName)
@@ -68,6 +71,10 @@ CommentView.prototype._renderComments = function($section, sectionName) {
     .then(function() {
       $section.find('.ouija-section').append(responseTemplate());
     });
+};
+
+CommentView.prototype.add = function(sectionName) {
+  this._renderComments(this._sections[sectionName], sectionName);
 };
 
 CommentView.prototype._registerListeners = function() {

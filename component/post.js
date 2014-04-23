@@ -5,6 +5,7 @@
 
 var _ = require('lodash');
 var Q = require('q');
+var Emitter = require('emitter-component');
 
 module.exports = Post;
 
@@ -18,6 +19,8 @@ function Post(identifier, connection) {
 
   this._initialize();
 }
+
+Emitter(Post.prototype);
 
 Post.prototype._initialize = function() {
   this._fetchComments();
@@ -48,6 +51,7 @@ Post.prototype._addHandler = function(comment, context) {
 
   this._comments[sectionName] = this._comments[sectionName] || {};
   this._comments[sectionName][commentId] = comment;
+  this.emit('newComment', sectionName);
 };
 
 // TODO: collapse timestamp into comment object;
