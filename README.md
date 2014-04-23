@@ -6,7 +6,8 @@
 2.  Clone the `develop` branch into the `content/apps` folder
 3.  Execute `$ npm install`
 4.  Execute `$ gulp`
-5.  Paste the following snippet above the closing body tag (`</body>`) of `default.hbs`
+5.  Add the css to `default.hbs` head: `<link rel="stylesheet" type="text/css" href="{{asset "css/ouija.css"}}" />`
+6.  Paste the following snippet above the closing body tag (`</body>`) of `default.hbs`
 
 ```
 {{#with post}}
