@@ -4,6 +4,7 @@
 'use strict';
 
 var _ = require('lodash');
+
 var commentTemplate = require('./templates/comment.hbs');
 var responseTemplate = require('./templates/response.hbs');
 var sectionTemplate = require('./templates/section.hbs');
@@ -48,6 +49,7 @@ CommentView.prototype._renderSections = function() {
   _.each(this._sections, this._renderComments.bind(this));
 };
 
+// Controller logic drifting into the view here
 CommentView.prototype._renderComments = function($section, sectionName) {
   $section.append(sectionTemplate({sectionName: sectionName}));
 
@@ -69,5 +71,16 @@ CommentView.prototype._renderComments = function($section, sectionName) {
 };
 
 CommentView.prototype._registerListeners = function() {
+  this._el.content.delegate('.ouija-response-save', 'click', this._handleSave.bind(this));
+};
 
+CommentView.prototype._handleSave = function(e) {
+  var $el = $(e.target);
+  var sectionName = $el.parents('.ouija-section').data('ouija-section-name');
+
+  var comment = {
+    content: $el.parents('.ouija-response').find('textarea').val()
+  };
+
+  this._post.addComment(sectionName, comment);
 };
