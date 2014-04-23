@@ -47,13 +47,19 @@ Users.prototype._initialize = function() {
 Users.prototype._updateUser = function(user) {
   var self = this;
 
-  user = _.pick(user, USER_PROPERTIES);
-  this._cache[user.id] = user;
+  this.isGuest().then(function(isGuest) {
+    if (isGuest) {
+      return;
+    }
 
-  self._localDeferred.resolve(user);
+    user = _.pick(user, USER_PROPERTIES);
+    this._cache[user.id] = user;
 
-  _.each(user, function(value, property) {
-    self._cacheKey.key(user.id).key(property).set(value);
+    self._localDeferred.resolve(user);
+
+    _.each(user, function(value, property) {
+      self._cacheKey.key(user.id).key(property).set(value);
+    });
   });
 };
 
