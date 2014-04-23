@@ -63,16 +63,20 @@ CommentView.prototype._labelSections = function() {
 
   _.each(this._el.sections, function(el, index) {
     var sectionName = 'section_' + index;
-    var $el = $(el);
-
-    $el.data(CommentView.NAMESPACE + '-section-name', sectionName);
 
     self._sections[sectionName] = $(el);
   });
 };
 
 CommentView.prototype._renderSections = function() {
-  _.each(this._sections, this._renderComments.bind(this));
+  var self = this;
+
+  _.each(this._sections, function($el, sectionName) {
+    $el.append(sectionTemplate({sectionName: sectionName}));
+    $el.find('.ouija-comments').append(responseTemplate());
+
+    self._renderComments($el, sectionName);
+  });
 };
 
 // Controller logic drifting into the view here
@@ -88,40 +92,29 @@ CommentView.prototype._renderComments = function($el, sectionName) {
       }, []);
     })
     .then(function(comments) {
-
-      $el.append(sectionTemplate({sectionName: sectionName}));
-
       $el.find('.ouija-controls .add').on('click', function(e) {
         e.preventDefault();
         $('.post-ouija').addClass('ouija-active');
         $el.find('.ouija').addClass('ouija-active');
-      })
+      });
 
       $el.find('.ouija-comments section').empty();
       $el.find('.ouija-comments section').append(comments.join(''));
-      console.log(responseTemplate());
-      console.log($el.find('.ouija-comments'));
-      $el.find('.ouija-comments').append(responseTemplate());
-
-      // // var $section = $el.find('.ouija');
-
-      // $section.empty();
-
-      // $section.append(comments.join(''));
-      // $section.append(responseTemplate());
     });
 };
 
 CommentView.prototype._registerListeners = function() {
-  this._el.content.delegate('.ouija-response-save', 'click', this._handleSave.bind(this));
+  this._el.content.delegate('.ouija-new', 'submit', this._handleSave.bind(this));
 };
 
 CommentView.prototype._handleSave = function(e) {
+  e.preventDefault();
+
   var $el = $(e.target);
-  var sectionName = $el.parents('.ouija-section').data('ouija-section-name');
+  var sectionName = $el.parents('.ouija').data('ouija-section-name');
 
   var comment = {
-    content: $el.parents('.ouija-response').find('textarea').val()
+    content: $el.serializeObject().content
   };
 
   this._post.addComment(sectionName, comment);
