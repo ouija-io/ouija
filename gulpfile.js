@@ -26,7 +26,8 @@ gulp.task('sass', function () {
   gulp.src(pathTo.styles)
     .pipe(plugins.sass({
       errLogToConsole: true,
-      sourceComments: 'map'
+      sourceComments: 'map',
+      includePaths: require('node-bourbon').includePaths
     }))
     .pipe(plugins.rename('ouija.css'))
     .pipe(gulp.dest(pathTo.casperThemeCss));
