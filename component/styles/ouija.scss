@@ -1,0 +1,214 @@
+/* ==========================================================================
+   Ouija inline commenting for Ghost
+   ========================================================================== */
+
+@import 'bourbon/bourbon';
+
+//Variables
+$width: 300px;
+$margin: 12px;
+$offset: 18%;
+$avatar-size: 34px;
+$controls-width: $margin*4;
+$comments-height: 350px;
+$border-color: #EBF2F6;
+$link-color: #57A3E8;
+
+$pointer-bg: 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMzFweCIgaGVpZ2h0PSIyMXB4IiB2aWV3Qm94PSIwIDAgMzEgMjEiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMxIDIxIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxwYXRoIGZpbGw9IiNCQkMzQzgiIGQ9Ik0zMSwxMC41QzMxLDE2LjI5OSwyNi4yOTksMjEsMjAuNSwyMVMxLjYyNywxMS42NjIsMS42MjcsMTEuNjYyYy0wLjg5NS0wLjYzOS0wLjg5NS0xLjY4NSwwLTIuMzI1DQoJCUMxLjYyNyw5LjMzNywxNC43MDEsMCwyMC41LDBTMzEsNC43MDEsMzEsMTAuNXoiLz4NCjwvZz4NCjwvc3ZnPg0K';
+
+$font-sans: 'Open Sans', sans-serif;
+$font-serif: 'Noto Serif', serif;
+
+//Reset Box-Sizing
+.ouija * { @include box-sizing(border-box); }
+
+//Main Element
+.ouija {
+  position: absolute;
+  top: 0;
+  right: - ($width + $margin);
+  width: $width;
+  z-index: 1000;
+  line-height: 1em;
+
+  //Comment Button
+  .ouija-controls {
+    position: relative;
+    float: left;
+    width: $controls-width;
+    margin-top: $margin/2;
+    z-index: 1;
+    @include transition(opacity .5s $ease-out-expo);
+    @include transition-delay(1s); //Delay fade out
+    a {
+      display: block;
+      padding: 1px 0 1px 15px;
+      background-image: url(data:image/svg+xml;base64,#{$pointer-bg});
+      background-repeat: no-repeat;
+      text-decoration: none;
+      font-weight: 900;
+      color: #eee;
+      -webkit-font-smoothing: antialiased;
+      opacity: .85;
+      @include transition(all .2s $ease-out-expo);
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+  }
+
+  button {
+    position: relative;
+    border: 0;
+    padding: $margin/3 $margin/2;
+    border-radius: 2px;
+    font-family: $font-sans;
+    background: $link-color;
+    font-size: 11px;
+    color: white;
+    @include transition(all .3s linear);
+    -webkit-apppearance: none;
+    &:hover {
+      background: darken($link-color, 5%);
+    }
+    &:active {
+      top: 1px;
+      outline: none;
+    }
+    &.text {
+      border: 0;
+      background: none;
+      color: #999;
+      &:hover {
+        color: #555;
+      }
+    }
+  }
+
+  //Comments
+  .ouija-comments {
+    float: left;
+    width: $width - $controls-width;
+    font-size: 13px;
+    font-family: $font-sans;
+    @include user-select(none);
+
+    //Overflow container
+    > section {
+      max-height: $comments-height;
+      overflow: auto;
+      margin-bottom: $margin;
+    }
+
+  }
+
+    .ouija-comment {
+      position: relative;
+      margin-bottom: $margin*2;
+      padding-left: $avatar-size + $margin;
+    }
+
+    .ouija-avatar {
+      display: block;
+      position: absolute;
+      top: 2px;
+      left: 0;
+
+      img {
+        width: $avatar-size;
+        height: $avatar-size;
+        margin: 0;
+        padding: 0;
+        border-radius: 2px;
+      }
+
+    }
+
+    .ouija-author {
+      font-size: 14px;
+      font-weight: 600;
+      a { text-decoration: none; }
+    }
+
+    .ouija-content {
+
+      p {
+        margin: 0;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 60px;
+        padding: $margin/2;
+        margin: $margin/2 0;
+        resize-x: none;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        &:focus {
+          border: 1px solid #aaa;
+          outline: none;
+        }
+      }
+
+      footer {
+        text-align: right;
+      }
+
+    }
+
+  //Border separator
+  &.ouija-active:after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    left: 20px;
+    top: -3px;
+    width: 1px;
+    background: $border-color;
+  }
+
+}
+
+
+/* ==========================================================================
+   States
+   ========================================================================== */
+
+
+.post-ouija {
+  position: relative;
+  right: 0;
+  @include transition(right .5s $ease-out-expo);
+
+  //Active post
+  &.ouija-active { right: $offset; }
+
+  .ouija {
+
+    //Comment Button
+    .ouija-controls { opacity: 0; }
+    &.ouija-active .ouija-controls,
+    &.ouija-active .ouija-controls a { opacity: 1; }
+
+    //Comment List
+    .ouija-comments {
+      opacity: 0;
+      @include user-select(all);
+      @include transition(opacity .5s $ease-out-expo);
+    }
+    &.ouija-active .ouija-comments { opacity: 1; }
+
+  }
+
+  p {
+    position: relative;
+    &:hover {
+      .ouija .ouija-controls {
+        opacity: 1;
+        @include transition-delay(0);
+      }
+    }
+  }
+
+}

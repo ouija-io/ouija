@@ -54,7 +54,6 @@ Post.prototype._addHandler = function(comment, context) {
   this.emit('newComment', sectionName);
 };
 
-// TODO: collapse timestamp into comment object;
 Post.prototype._cacheComments = function(sections) {
   var self = this;
 
@@ -83,7 +82,5 @@ Post.prototype.getComments = function(sectionName) {
 
   return this._cached.promise.then(function() {
     return self._comments[sectionName] || null;
-  }, function() {
-    console.log(arguments)
   });
 };

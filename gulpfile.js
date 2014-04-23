@@ -7,17 +7,29 @@ var gulpLoadPlugins = require('gulp-load-plugins');
 var plugins = gulpLoadPlugins();
 
 var pathTo = {
+  styles: 'component/styles/**.scss',
   entry: 'component/index.js',
   watch: ['component/**.js', 'component/templates/**.hbs'],
-  casperTheme: '../../themes/casper/assets/js/'
+  casperThemeJs: '../../themes/casper/assets/js/',
+  casperThemeCss: '../../themes/casper/assets/css/'
 };
 
 // Compile ES6 modules and drop them into the Capser theme directory
-gulp.task('develop', function() {
+gulp.task('develop', ['sass'], function() {
   gulp.src(pathTo.entry)
     .pipe(plugins.browserify({ debug: true, transform: ['hbsfy'] }))
     .pipe(plugins.rename('ouija.js'))
-    .pipe(gulp.dest(pathTo.casperTheme));
+    .pipe(gulp.dest(pathTo.casperThemeJs));
+});
+
+gulp.task('sass', function () {
+  gulp.src(pathTo.styles)
+    .pipe(plugins.sass({
+      errLogToConsole: true,
+      sourceComments: 'map'
+    }))
+    .pipe(plugins.rename('ouija.css'))
+    .pipe(gulp.dest(pathTo.casperThemeCss));
 });
 
 // Run the develop task when a file change changes
