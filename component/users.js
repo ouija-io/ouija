@@ -24,8 +24,6 @@ function Users(conn) {
   this._initialize();
 }
 
-// TODO only store what we need
-// TODO handle state of user, online offline
 Users.prototype._initialize = function() {
   var self = this;
 
@@ -57,6 +55,18 @@ Users.prototype._updateUser = function(user) {
   _.each(user, function(value, property) {
     self._cacheKey.key(user.id).key(property).set(value);
   });
+};
+
+Users.prototype.loginUrl = function() {
+  var deferred = q.defer();
+
+  this._conn.then(function(result) {
+    var url = result.connection.loginUrl('twitter');
+
+    deferred.resolve(url);
+  });
+
+  return deferred.promise;
 };
 
 Users.prototype.isGuest = function() {

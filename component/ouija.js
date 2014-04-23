@@ -37,6 +37,10 @@ Ouija.prototype.initialize = function() {
     console.log(guest);
   });
 
+  users.loginUrl().then(function(url) {
+    console.log(url);
+  });
+
   this._post = new Post(this._identifier, this._connection);
   this._view = new CommentView(this._post); // TODO: not this
 
