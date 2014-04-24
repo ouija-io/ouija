@@ -24,28 +24,6 @@ function CommentView(post) {
 
   $('article.post').addClass('post-ouija');
 
-
-  // var post =   $('.post-ouija'),
-  //     active = 'ouija-active';
-
-  //   $('.content').delegate('.add', 'click', function(e) {
-  //     console.log('wa da fuck')
-  //     e.preventDefault();
-
-  //     post.addClass(active);
-
-  //     var wrapper = $(this).closest('.ouija');
-
-  //     if ($('.ouija').hasClass(active)) {
-  //       $('.ouija').removeClass(active);
-  //       wrapper.addClass(active);
-  //     } else {
-  //       wrapper.addClass(active);
-  //     }
-
-  //   });
-
-
   _.bindAll(this, ['add']);
 }
 
@@ -94,8 +72,24 @@ CommentView.prototype._renderComments = function($el, sectionName) {
     .then(function(comments) {
       $el.find('.ouija-controls .add').on('click', function(e) {
         e.preventDefault();
-        $('.post-ouija').addClass('ouija-active');
-        $el.find('.ouija').addClass('ouija-active');
+
+        var $comments = $(e.target).parents('.ouija').find('.ouija-comments');
+
+        setTimeout(function() {
+          $('body').on('click', hideComments);
+        }, 0);
+
+        function hideComments(e) {
+          if($(e.target).parents('.ouija').find('.ouija-comments')[0] === $comments[0]) return;
+
+          $('.post-ouija').removeClass('ouija-active');
+          $el.find('.ouija').removeClass('ouija-active');
+          $('body').off('click', hideComments);
+        }
+        setTimeout(function() {
+          $('.post-ouija').addClass('ouija-active');
+          $el.find('.ouija').addClass('ouija-active');
+        }, 0);
       });
 
       $el.find('.ouija-comments section').empty();
@@ -118,6 +112,7 @@ CommentView.prototype._handleSave = function(e) {
   };
 
   this._post.addComment(sectionName, comment);
+  $el.find('textarea').val('');
 };
 
 CommentView.prototype.add = function(sectionName) {
