@@ -15,6 +15,7 @@ function CommentView(post, users) {
   _.extend(this, {
     _post: post,
     _users: users,
+    _dScrollBottom: _.debounce(this._scrollBottom, 100),
     _el: {}
   });
 
@@ -122,6 +123,8 @@ CommentView.prototype._registerListeners = function() {
 CommentView.prototype._handleSave = function(e) {
   e.preventDefault();
 
+  var self = this;
+
   var $el = $(e.target);
   var sectionName = $el.parents('.ouija').data('ouija-section-name');
 
@@ -133,6 +136,16 @@ CommentView.prototype._handleSave = function(e) {
   $el.find('textarea').val('');
 };
 
-CommentView.prototype.add = function(sectionName) {
+CommentView.prototype.add = function(sectionName, context) {
   this._renderComments(this._sections[sectionName], sectionName);
+  this._dScrollBottom(this._sections[sectionName]);
+};
+
+CommentView.prototype._scrollBottom = function($el) {
+  var $container = $el.find('.ouija-comments section');
+  var properties = {
+    scrollTop: $container[0].scrollHeight
+  };
+
+  $container.animate(properties, 'slow');
 };

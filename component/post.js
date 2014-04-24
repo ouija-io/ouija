@@ -108,15 +108,21 @@ Post.prototype._cacheComments = function(sections) {
 Post.prototype.addComment = function(sectionName, comment) {
   var self = this;
 
+  var deferred = Q.defer();
   var keyName = 'sections/' + sectionName;
 
   this._users.getSelf().then(function(localUser) {
     comment.userId = localUser.id;
 
-    return self._postRoom
+    self._postRoom
       .invoke('key', keyName)
-      .invoke('add', comment);
+      .invoke('add', comment)
+      .then(function(value, context) {
+        deferred.resolve(value, context);
+      });
   });
+
+  return deferred.promise;
 };
 
 Post.prototype.getComments = function(sectionName) {
