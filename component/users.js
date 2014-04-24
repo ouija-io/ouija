@@ -53,7 +53,7 @@ Users.prototype._updateUser = function(user) {
     }
 
     user = _.pick(user, USER_PROPERTIES);
-    this._cache[user.id] = user;
+    self._cache[user.id] = user;
 
     self._localDeferred.resolve(user);
 

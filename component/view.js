@@ -11,9 +11,10 @@ var sectionTemplate = require('./templates/section.hbs');
 
 module.exports = CommentView;
 
-function CommentView(post) {
+function CommentView(post, users) {
   _.extend(this, {
     _post: post,
+    _users: users,
     _el: {}
   });
 
@@ -28,10 +29,10 @@ function CommentView(post) {
 }
 
 CommentView.prototype._parseContent = function() {
- this._el.content = $('.post-content');
- this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
-  return _($(el).text()).isEmpty();
- });
+  this._el.content = $('.post-content');
+  this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
+    return _($(el).text()).isEmpty();
+  });
 };
 
 CommentView.prototype._labelSections = function() {
@@ -49,11 +50,13 @@ CommentView.prototype._labelSections = function() {
 CommentView.prototype._renderSections = function() {
   var self = this;
 
-  _.each(this._sections, function($el, sectionName) {
-    $el.append(sectionTemplate({sectionName: sectionName}));
-    $el.find('.ouija-comments').append(responseTemplate());
+  this._users.getSelf().then(function(localUser) {
+    _.each(self._sections, function($el, sectionName) {
+      $el.append(sectionTemplate({sectionName: sectionName}));
+      $el.find('.ouija-comments').append(responseTemplate(localUser));
 
-    self._renderComments($el, sectionName);
+      self._renderComments($el, sectionName);
+    });
   });
 };
 

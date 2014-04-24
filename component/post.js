@@ -9,11 +9,12 @@ var Emitter = require('emitter-component');
 
 module.exports = Post;
 
-function Post(identifier, connection) {
+function Post(identifier, connection, users) {
   _.extend(this, {
     _identifier: identifier,
     _postRoom: connection.get('rooms').get(1).invoke('join').get('room'),
     _comments: {},
+    _users: users,
     _cached: Q.defer()
   });
 
@@ -32,6 +33,7 @@ Post.prototype._fetchComments = function() {
     .invoke('key', '/sections')
     .invoke('get')
     .get('value')
+    .then(this._getUsers.bind(this))
     .then(this._cacheComments.bind(this))
     .then(this._cached.resolve)
     .fail(this._cached.reject);
@@ -46,12 +48,46 @@ Post.prototype._observeChanges = function() {
 };
 
 Post.prototype._addHandler = function(comment, context) {
+  var self = this;
+
   var sectionName = _.last(context.key.split('/'));
   var commentId = _.last(context.addedKey.split('/'));
 
   this._comments[sectionName] = this._comments[sectionName] || {};
-  this._comments[sectionName][commentId] = comment;
-  this.emit('newComment', sectionName);
+  this._users.getUser(comment.userId).then(function(user) {
+    comment.displayName = user.displayName;
+    comment.avatarUrl = user.avatarUrl;
+
+    self._comments[sectionName][commentId] = comment;
+    self.emit('newComment', sectionName);
+  });
+};
+
+Post.prototype._getUsers = function(sections) {
+  var self = this;
+
+  var deferred = Q.defer();
+  var promises = [];
+
+  _(sections).each(function(comments) {
+    _(comments).each(function(comment) {
+      var promise = self._users.getUser(comment.userId);
+      promise.then(function(user) {
+
+        comment.displayName = user.displayName;
+        comment.avatarUrl = user.avatarUrl;
+      });
+
+      promises.push(promise);
+    });
+
+  });
+
+  Q.all(promises).then(function() {
+    deferred.resolve(sections);
+  });
+
+  return deferred.promise;
 };
 
 Post.prototype._cacheComments = function(sections) {
@@ -70,11 +106,17 @@ Post.prototype._cacheComments = function(sections) {
 };
 
 Post.prototype.addComment = function(sectionName, comment) {
+  var self = this;
+
   var keyName = 'sections/' + sectionName;
 
-  return this._postRoom
-    .invoke('key', keyName)
-    .invoke('add', comment);
+  this._users.getSelf().then(function(localUser) {
+    comment.userId = localUser.id;
+
+    return self._postRoom
+      .invoke('key', keyName)
+      .invoke('add', comment);
+  });
 };
 
 Post.prototype.getComments = function(sectionName) {
