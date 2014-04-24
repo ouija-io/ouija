@@ -50,10 +50,25 @@ CommentView.prototype._labelSections = function() {
 CommentView.prototype._renderSections = function() {
   var self = this;
 
-  this._users.getSelf().then(function(localUser) {
-    _.each(self._sections, function($el, sectionName) {
-      $el.append(sectionTemplate({sectionName: sectionName}));
-      $el.find('.ouija-comments').append(responseTemplate(localUser));
+  _.each(self._sections, function($el, sectionName) {
+    $el.append(sectionTemplate({sectionName: sectionName}));
+
+    self._users.isGuest().then(function(isGuest) {
+      if (!isGuest) {
+        return self._users.getSelf();
+      }
+
+      return self._users.loginUrl();
+
+    }).then(function(result) {
+      if (_.isString(result)) {
+        console.log(result);
+        //TODO show login button for guests instead of form
+        //$el.find('.ouija-comments').append(authTemplate());
+
+      } else {
+        $el.find('.ouija-comments').append(responseTemplate(result));
+      }
 
       self._renderComments($el, sectionName);
     });

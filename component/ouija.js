@@ -23,26 +23,6 @@ Ouija.NAMESPACE = 'ouija';
 Ouija.prototype.initialize = function() {
   this._connection = this._connect();
   this._users = new Users(this._connection);
-
-  var self = this;
-
-  this._users.getSelf().then(function(me) {
-    console.log(me, 'getSelf');
-
-    self._users.getUser('guest:LipVmi7Trb8za9cpZKtHIQ').then(function(user) {
-      console.log(user, 'getUser');
-    });
-  });
-
-  this._users.isGuest().then(function(guest) {
-    console.log(guest);
-  });
-
-  this._users.loginUrl().then(function(url) {
-    console.log(url);
-  });
-
-
   this._post = new Post(this._identifier, this._connection, this._users);
   this._view = new CommentView(this._post, this._users); // TODO: not this
 
