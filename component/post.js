@@ -117,8 +117,8 @@ Post.prototype.addComment = function(sectionName, comment) {
     self._postRoom
       .invoke('key', keyName)
       .invoke('add', comment)
-      .then(function(value, context) {
-        deferred.resolve(value, context);
+      .then(function(result) {
+        deferred.resolve(result);
       });
   });
 
