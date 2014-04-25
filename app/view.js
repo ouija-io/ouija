@@ -80,6 +80,7 @@ CommentView.prototype._renderSections = function() {
 CommentView.prototype._renderComments = function($el, sectionName) {
   var $controls = $el.find('.ouija-controls');
 
+
   this._post.getComments(sectionName)
     .then(function(sectionComments) {
       if (!sectionComments) return;
@@ -100,10 +101,10 @@ CommentView.prototype._renderComments = function($el, sectionName) {
 
       if (commentCount) {
         $el.find('.ouija-comments section').append(comments.join(''));
+        $el.find('.ouija').addClass('ouija-has-comments');
         $controls.find('.add').hide();
         $controls.find('.add.count').css('display', 'block').find('span').text(commentCount);
       }
-
     }).fail(function(err) {
       console.log(err);
     });

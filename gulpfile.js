@@ -7,9 +7,9 @@ var gulpLoadPlugins = require('gulp-load-plugins');
 var plugins = gulpLoadPlugins();
 
 var pathTo = {
-  styles: 'component/styles/**.scss',
-  entry: 'component/index.js',
-  watch: ['component/**.js', 'component/templates/**.hbs', 'component/styles/**.scss'],
+  styles: 'app/styles/**.scss',
+  entry: 'app/index.js',
+  watch: ['app/**.js', 'app/templates/**.hbs', 'app/styles/**.scss'],
   casperThemeJs: '../../themes/casper/assets/js/',
   casperThemeCss: '../../themes/casper/assets/css/'
 };
