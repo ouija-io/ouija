@@ -68,6 +68,10 @@ CommentView.prototype._renderSections = function() {
         //$el.find('.ouija-comments').append(authTemplate());
 
       } else {
+        var $controls = $el.find('.ouija-controls');
+
+        $controls.find('.loader').hide();
+        $controls.find('.add').css('display', 'block');
         $el.find('.ouija-comments').append(responseTemplate(result));
       }
 
@@ -132,8 +136,6 @@ CommentView.prototype._handleCancel = function(e) {
 CommentView.prototype._handleSave = function(e) {
   e.preventDefault();
 
-  var self = this;
-
   var $el = $(e.target);
   var sectionName = $el.parents('.ouija').data('ouija-section-name');
 
@@ -147,7 +149,7 @@ CommentView.prototype._handleSave = function(e) {
   $el.find('textarea').val('');
 };
 
-CommentView.prototype.add = function(sectionName, context) {
+CommentView.prototype.add = function(sectionName) {
   this._renderComments(this._sections[sectionName], sectionName);
   this._dScrollBottom(this._sections[sectionName]);
 };
