@@ -68,10 +68,6 @@ CommentView.prototype._renderSections = function() {
         //$el.find('.ouija-comments').append(authTemplate());
 
       } else {
-        var $controls = $el.find('.ouija-controls');
-
-        $controls.find('.loader').hide();
-        $controls.find('.add').css('display', 'block');
         $el.find('.ouija-comments').append(responseTemplate(result));
       }
 
@@ -117,6 +113,11 @@ CommentView.prototype._renderComments = function($el, sectionName) {
 
       $el.find('.ouija-comments section').empty();
       $el.find('.ouija-comments section').append(comments.join(''));
+
+      var $controls = $el.find('.ouija-controls');
+
+      $controls.find('.loader').hide();
+      $controls.find('.add').css('display', 'block');
     });
 };
 
