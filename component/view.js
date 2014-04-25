@@ -11,9 +11,11 @@ var sectionTemplate = require('./templates/section.hbs');
 
 module.exports = CommentView;
 
-function CommentView(post) {
+function CommentView(post, users) {
   _.extend(this, {
     _post: post,
+    _users: users,
+    _dScrollBottom: _.debounce(this._scrollBottom, 100),
     _el: {}
   });
 
@@ -28,10 +30,10 @@ function CommentView(post) {
 }
 
 CommentView.prototype._parseContent = function() {
- this._el.content = $('.post-content');
- this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
-  return _($(el).text()).isEmpty();
- });
+  this._el.content = $('.post-content');
+  this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
+    return _($(el).text()).isEmpty();
+  });
 };
 
 CommentView.prototype._labelSections = function() {
@@ -49,11 +51,28 @@ CommentView.prototype._labelSections = function() {
 CommentView.prototype._renderSections = function() {
   var self = this;
 
-  _.each(this._sections, function($el, sectionName) {
+  _.each(self._sections, function($el, sectionName) {
     $el.append(sectionTemplate({sectionName: sectionName}));
-    $el.find('.ouija-comments').append(responseTemplate());
 
-    self._renderComments($el, sectionName);
+    self._users.isGuest().then(function(isGuest) {
+      if (!isGuest) {
+        return self._users.getSelf();
+      }
+
+      return self._users.loginUrl();
+
+    }).then(function(result) {
+      if (_.isString(result)) {
+        console.log(result);
+        //TODO show login button for guests instead of form
+        //$el.find('.ouija-comments').append(authTemplate());
+
+      } else {
+        $el.find('.ouija-comments').append(responseTemplate(result));
+      }
+
+      self._renderComments($el, sectionName);
+    });
   });
 };
 
@@ -104,6 +123,8 @@ CommentView.prototype._registerListeners = function() {
 CommentView.prototype._handleSave = function(e) {
   e.preventDefault();
 
+  var self = this;
+
   var $el = $(e.target);
   var sectionName = $el.parents('.ouija').data('ouija-section-name');
 
@@ -115,6 +136,16 @@ CommentView.prototype._handleSave = function(e) {
   $el.find('textarea').val('');
 };
 
-CommentView.prototype.add = function(sectionName) {
+CommentView.prototype.add = function(sectionName, context) {
   this._renderComments(this._sections[sectionName], sectionName);
+  this._dScrollBottom(this._sections[sectionName]);
+};
+
+CommentView.prototype._scrollBottom = function($el) {
+  var $container = $el.find('.ouija-comments section');
+  var properties = {
+    scrollTop: $container[0].scrollHeight
+  };
+
+  $container.animate(properties, 'slow');
 };
