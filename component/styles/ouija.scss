@@ -81,7 +81,7 @@ $font-serif: 'Noto Serif', serif;
         height: 22px;
         span {
           top: 2px;
-          left: -2px;
+          left: -1px;
         }
       }
 
@@ -89,12 +89,14 @@ $font-serif: 'Noto Serif', serif;
 
   }
 
-  button {
+  button,
+  .ouija-button {
     position: relative;
     border: 0;
     padding: $margin/3 $margin/2;
     border-radius: 2px;
     font-family: $font-sans;
+    text-decoration: none;
     background: $link-color;
     font-size: 11px;
     color: white;
@@ -192,8 +194,32 @@ $font-serif: 'Noto Serif', serif;
 
     }
 
-    .ouija-new {
+    .ouija-new,
+    .ouija-login {
       box-shadow: 0 -10px 15px 10px white;
+    }
+
+    .ouija-login {
+      text-align: center;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+      background: #f7f7f7;
+      padding: $margin $margin $margin*1.5;
+      h5 {
+        font-size: 12px;
+        color: #999;
+        font-weight: 100;
+      }
+      .ouija-button {
+        text-decoration: none;
+        font-size: 14px;
+        padding: 7px 10px;
+        span {
+          position: relative;
+          top: 2px;
+          margin-right: 5px;
+        }
+      }
     }
 
   //Border separator
@@ -284,7 +310,7 @@ $font-serif: 'Noto Serif', serif;
 
 }
 
-$loader-size: 16px;
+$loader-size: 14px;
 $loader-color: #222;
 
 .ouija-loader {
