@@ -8,6 +8,7 @@ var _ = require('lodash');
 var commentTemplate = require('./templates/comment.hbs');
 var responseTemplate = require('./templates/response.hbs');
 var sectionTemplate = require('./templates/section.hbs');
+var loginTemplate = require('./templates/login.hbs');
 
 module.exports = CommentView;
 
@@ -63,9 +64,7 @@ CommentView.prototype._renderSections = function() {
 
     }).then(function(result) {
       if (_.isString(result)) {
-        console.log(result);
-        //TODO show login button for guests instead of form
-        //$el.find('.ouija-comments').append(authTemplate());
+        $el.find('.ouija-comments').append(loginTemplate({ url: result }));
 
       } else {
         $el.find('.ouija-comments').append(responseTemplate(result));
