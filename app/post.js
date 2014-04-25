@@ -57,6 +57,7 @@ Post.prototype._addHandler = function(comment, context) {
   this._users.getUser(comment.userId).then(function(user) {
     comment.displayName = user.displayName;
     comment.avatarUrl = user.avatarUrl;
+    comment.username = user.username;
 
     self._comments[sectionName][commentId] = comment;
     self.emit('newComment', sectionName);
@@ -76,6 +77,7 @@ Post.prototype._getUsers = function(sections) {
 
         comment.displayName = user.displayName;
         comment.avatarUrl = user.avatarUrl;
+        comment.username = user.username;
       });
 
       promises.push(promise);

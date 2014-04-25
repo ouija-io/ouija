@@ -6,7 +6,7 @@
 var _ = require('lodash');
 var q = require('q');
 
-var USER_PROPERTIES = ['displayName', 'avatarUrl', 'id'];
+var USER_PROPERTIES = ['displayName', 'avatarUrl', 'id', 'username'];
 var USER_METADATA = ['status'];
 
 module.exports = Users;
