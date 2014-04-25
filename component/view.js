@@ -89,6 +89,11 @@ CommentView.prototype._renderComments = function($el, sectionName) {
       }, []);
     })
     .then(function(comments) {
+      var $controls = $el.find('.ouija-controls');
+
+      $controls.find('.loader').hide();
+      $controls.find('.add').css('display', 'block');
+
       $el.find('.ouija-controls .add').on('click', function(e) {
         e.preventDefault();
 
@@ -113,11 +118,6 @@ CommentView.prototype._renderComments = function($el, sectionName) {
 
       $el.find('.ouija-comments section').empty();
       $el.find('.ouija-comments section').append(comments.join(''));
-
-      var $controls = $el.find('.ouija-controls');
-
-      $controls.find('.loader').hide();
-      $controls.find('.add').css('display', 'block');
     });
 };
 
