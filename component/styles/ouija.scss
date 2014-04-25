@@ -67,6 +67,7 @@ $font-serif: 'Noto Serif', serif;
 
       //Comment Count
       &.count {
+        display: none;
         letter-spacing: -1px;
         span {
           display: block;

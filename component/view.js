@@ -78,6 +78,8 @@ CommentView.prototype._renderSections = function() {
 
 // Controller logic drifting into the view here
 CommentView.prototype._renderComments = function($el, sectionName) {
+  var $controls = $el.find('.ouija-controls');
+
   this._post.getComments(sectionName)
     .then(function(sectionComments) {
       if (!sectionComments) return;
@@ -89,36 +91,42 @@ CommentView.prototype._renderComments = function($el, sectionName) {
       }, []);
     })
     .then(function(comments) {
-      var $controls = $el.find('.ouija-controls');
-
-      $controls.find('.loader').hide();
-      $controls.find('.add').css('display', 'block');
-
-      $el.find('.ouija-controls .add').on('click', function(e) {
-        e.preventDefault();
-
-        var $comments = $(e.target).parents('.ouija').find('.ouija-comments');
-
-        setTimeout(function() {
-          $('body').on('click', hideComments);
-        }, 0);
-
-        function hideComments(e) {
-          if($(e.target).parents('.ouija').find('.ouija-comments')[0] === $comments[0]) return;
-
-          $('.post-ouija').removeClass('ouija-active');
-          $el.find('.ouija').removeClass('ouija-active');
-          $('body').off('click', hideComments);
-        }
-        setTimeout(function() {
-          $('.post-ouija').addClass('ouija-active');
-          $el.find('.ouija').addClass('ouija-active');
-        }, 0);
-      });
+      var commentCount = comments && comments.length || 0;
 
       $el.find('.ouija-comments section').empty();
-      $el.find('.ouija-comments section').append(comments.join(''));
+
+      $controls.find('.loader').remove();
+      $controls.find('.add').css('display', 'block');
+
+      if (commentCount) {
+        $el.find('.ouija-comments section').append(comments.join(''));
+        $controls.find('.add').hide();
+        $controls.find('.add.count').css('display', 'block').find('span').text(commentCount);
+      }
+
+    }).fail(function(err) {
+      console.log(err);
     });
+
+  $controls.delegate('.add', 'click', function(e) {
+    e.preventDefault();
+
+    var $comments = $(e.target).parents('.ouija').find('.ouija-comments');
+
+    $('body').on('click', hideComments);
+
+    function hideComments(e) {
+      if($(e.target).parents('.ouija').find('.ouija-comments')[0] === $comments[0]) return;
+
+      $('.post-ouija').removeClass('ouija-active');
+      $el.find('.ouija').removeClass('ouija-active');
+      $('body').off('click', hideComments);
+    }
+
+    $('.post-ouija').addClass('ouija-active');
+    $el.find('.ouija').addClass('ouija-active');
+  });
+
 };
 
 CommentView.prototype._registerListeners = function() {
