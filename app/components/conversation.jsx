@@ -3,14 +3,19 @@
 
 'use strict';
 
-var React = require('react');
+var React = require('react/addons');
 
 var CommentList = require('./comment-list');
 var CommentForm = require('./comment-form');
 
 var Conversation = module.exports = React.createClass({
   getInitialState: function() {
-    return { comments: {} };
+    return { comments: {}, isActive: false };
+  },
+  handleAddClick: function(e) {
+    e.preventDefault();
+
+    this.setState({ isActive: !this.state.isActive });
   },
   componentWillMount: function() {
     var self = this;
@@ -30,9 +35,15 @@ var Conversation = module.exports = React.createClass({
     });
   },
   render: function() {
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'ouija': true,
+      'ouija-active': this.state.isActive
+    });
+
     var control = {
       loader: (<a href="#" className="loader"><span className="ouija-loader"></span></a>),
-      add: (<a href="#" className="add">+</a>),
+      add: (<a href="#" className="add" onClick={this.handleAddClick}>+</a>),
       count: (<a href="#" className="add count"><span></span></a>)
     };
 
@@ -41,7 +52,7 @@ var Conversation = module.exports = React.createClass({
     );
 
     var conversation = (
-      <div className="ouija ouija-active">
+      <div className={ classes }>
         { controls }
 
         <CommentList data={ this.state.comments } />
