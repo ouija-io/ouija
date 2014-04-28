@@ -38,6 +38,8 @@
     "emitter-component": "~1.1.1",
     "gulp-sass": "~0.7.1",
     "node-bourbon": "~1.2.2",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "reactify": "^0.13.1",
+    "react": "^0.10.0"
   }
 }
