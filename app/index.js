@@ -3,8 +3,6 @@
 
 'use strict';
 
-require('./jquery-plugins');
-
 // Ouija component class
 var Ouija = require('./ouija');
 

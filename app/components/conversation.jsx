@@ -12,10 +12,38 @@ var Conversation = module.exports = React.createClass({
   getInitialState: function() {
     return { comments: {}, isActive: false };
   },
+  monitorComments: function() {
+    var self = this;
+
+    var $post = $('.post-ouija');
+    var $currentConversation = $(self.getDOMNode())
+    var $document = $(document)
+
+    $document.on('click', hideComments);
+    $currentConversation.on('click', voidClick);
+
+    function voidClick(e) {
+      e.stopPropagation();
+      return false;
+    }
+
+    function hideComments() {
+      $document.off('click', hideComments);
+      $currentConversation.off('click', voidClick);
+      $post.removeClass('ouija-active');
+      self.setState({ isActive: !self.state.isActive });
+    }
+
+    $post.addClass('ouija-active');
+  },
   handleAddClick: function(e) {
     e.preventDefault();
 
+    this.monitorComments();
     this.setState({ isActive: !this.state.isActive });
+  },
+  handleConvClick: function(e) {
+    e.stopPropagation();
   },
   componentWillMount: function() {
     var self = this;
@@ -52,7 +80,7 @@ var Conversation = module.exports = React.createClass({
     );
 
     var conversation = (
-      <div className={ classes }>
+      <div className={ classes } onClick={ this.handleConvClick }>
         { controls }
 
         <CommentList data={ this.state.comments } />
