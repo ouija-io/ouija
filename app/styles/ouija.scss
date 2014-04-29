@@ -215,7 +215,8 @@ $font-serif: 'Noto Serif', serif;
         text-decoration: none;
         font-size: 14px;
         padding: 7px 10px;
-        span {
+        [class^="icon-"],
+        [class*=" icon-"] {
           position: relative;
           top: 2px;
           margin-right: 5px;
