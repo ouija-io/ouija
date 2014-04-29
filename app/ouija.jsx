@@ -80,8 +80,11 @@ Ouija.prototype._renderSections = function() {
 
   _.each(self._sections, function($section, sectionName) {
     React.renderComponent(
-      <Conversation comments={ self._post } section={ sectionName } />,
-      $section[0]
+      <Conversation
+        comments={ self._post }
+        users={ self._users }
+        section={ sectionName }
+      />, $section[0]
     );
   });
 };

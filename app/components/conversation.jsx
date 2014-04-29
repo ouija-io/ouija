@@ -16,18 +16,23 @@ var Conversation = module.exports = React.createClass({
     var self = this;
 
     var $post = $('.post-ouija');
-    var $currentConversation = $(self.getDOMNode())
-    var $document = $(document)
+    var $currentConversation = $(self.getDOMNode());
+    var $document = $(document);
+    var inEvent = false;
 
     $document.on('click', hideComments);
     $currentConversation.on('click', voidClick);
 
     function voidClick(e) {
-      e.stopPropagation();
-      return false;
+      inEvent = true;
     }
 
     function hideComments() {
+      if (inEvent) {
+        inEvent = false;
+        return;
+      };
+
       $document.off('click', hideComments);
       $currentConversation.off('click', voidClick);
       $post.removeClass('ouija-active');
@@ -45,13 +50,16 @@ var Conversation = module.exports = React.createClass({
   handleConvClick: function(e) {
     e.stopPropagation();
   },
+  handleCommentSubmit: function(data) {
+    console.log('comment data', data);
+  },
   componentWillMount: function() {
     var self = this;
 
-    this.props.comments.getComments(this.props.section).then(function(data) {
-      self.setState({ comments: data });
+    this.props.comments.getComments(this.props.section).then(function(comments) {
+      self.setState({ comments: comments });
     }).fail(function(err) {
-      console.log('error during conversation mount', err);
+      console.log('wuh oh', err)
     });
 
     this.props.comments.on('newComment', function(sectionName) {
@@ -79,15 +87,16 @@ var Conversation = module.exports = React.createClass({
       <div className="ouija-controls">{ control.add }</div>
     );
 
-    var conversation = (
+    return (
       <div className={ classes } onClick={ this.handleConvClick }>
         { controls }
 
         <CommentList data={ this.state.comments } />
-        <CommentForm />
+        <CommentForm
+          onCommentSubmit={ this.handleCommentSubmit }
+          users={ this.props.users }
+        />
       </div>
     );
-
-    return conversation;
   }
 });

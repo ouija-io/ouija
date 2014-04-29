@@ -10,7 +10,7 @@ var Commment = module.exports = React.createClass({
     var author = this.props.author;
 
     return (
-      <div className="ouija-comment comment-active">
+      <div className="ouija-comment">
         <span className="ouija-avatar">
           <img src={ author.avatarUrl } alt="avatar"/>
         </span>

@@ -38,10 +38,7 @@ Users.prototype._initialize = function() {
 
     self._localId = user.id;
     self._updateUser(user);
-
-  }).catch(function(err) {
-    throw err;
-  });
+  }).fail(this._localDeferred.reject);
 };
 
 Users.prototype._updateUser = function(user) {
@@ -49,6 +46,7 @@ Users.prototype._updateUser = function(user) {
 
   this.isGuest().then(function(isGuest) {
     if (isGuest) {
+      self._localDeferred.resolve(null);
       return;
     }
 

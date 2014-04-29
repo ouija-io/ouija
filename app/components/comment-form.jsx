@@ -4,22 +4,62 @@
 'use strict';
 
 var React = require('react');
+var Q = require('q');
+
+var Login = require('./login');
 
 window.React = React;
 
 var CommentForm = module.exports = React.createClass({
+  getInitialState: function() {
+    return { user: {} };
+  },
+  componentWillMount: function() {
+    var self = this;
+    var users = this.props.users;
+
+    Q.all([
+      users.isGuest(),
+      users.getSelf(),
+      users.loginUrl()
+    ]).spread(function(isGuest, currentUser, loginUrl) {
+      if (isGuest) {
+        self.setState({ isGuest: true, loginComponent: (
+          <Login loginUrl={ loginUrl } />) }
+        );
+      }
+
+      self.setState({ user: currentUser });
+    }).fail(function(err) {
+      console.log('ahh', err);
+    })
+  },
+  handleSubmit: function(e) {
+    var content = this.refs.content.getDOMNode().value.trim();
+
+    this.props.onCommentSubmit({ content: content });
+    this.refs.content.getDOMNode().value = '';
+
+    e.preventDefault();
+  },
   render: function() {
+    if (this.state && this.state.isGuest) return this.state.loginComponent;
+
     return (
-      <form className="ouija-comment ouija-new">
-        <span className="ouija-avatar"></span>
+      <form className="ouija-comment ouija-new" onSubmit={ this.handleSubmit }>
+        <span className="ouija-avatar">
+          <img src={ this.state.user.avatarUrl } alt="avatar"/>
+        </span>
         <div className="ouija-author">
-          <a href="https://twitter.com/" alt="Timestamp">Display Name</a>
+          <a
+            href="https://twitter.com/{ this.state.user.username }"
+            alt="display name">{ this.state.user.displayName }</a>
         </div>
         <div className="ouija-content">
-          <textarea name="content" placeholder="Leave a comment..."></textarea>
+          <textarea ref="content" placeholder="Leave a comment..."></textarea>
           <footer>
               <button className="text">Cancel</button>
-              <button>Comment</button>
+              <button type="submit">Comment</button>
           </footer>
         </div>
       </form>
