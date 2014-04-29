@@ -18,18 +18,18 @@ var Conversation = module.exports = React.createClass({
     var $post = $('.post-ouija');
     var $currentConversation = $(self.getDOMNode());
     var $document = $(document);
-    var inEvent = false;
+    var disregardEvent = false;
 
     $document.on('click', hideComments);
     $currentConversation.on('click', voidClick);
 
     function voidClick(e) {
-      inEvent = true;
+      disregardEvent = true;
     }
 
     function hideComments() {
-      if (inEvent) {
-        inEvent = false;
+      if (disregardEvent) {
+        disregardEvent = false;
         return;
       };
 
@@ -42,27 +42,30 @@ var Conversation = module.exports = React.createClass({
     $post.addClass('ouija-active');
   },
   handleAddClick: function(e) {
-    e.preventDefault();
-
-    this.monitorComments();
     this.setState({ isActive: !this.state.isActive });
+    this.monitorComments();
+
+    e.preventDefault();
   },
   handleConvClick: function(e) {
     e.stopPropagation();
   },
-  handleCommentSubmit: function(data) {
-    console.log('comment data', data);
+  handleCommentSubmit: function(comment) {
+    var sectionName = this.props.section;
+
+    this.props.comments.add(sectionName, comment);
   },
   componentWillMount: function() {
     var self = this;
+    var comments = this.props.comments;
 
-    this.props.comments.getComments(this.props.section).then(function(comments) {
+    comments.getComments(this.props.section).then(function(comments) {
       self.setState({ comments: comments });
     }).fail(function(err) {
       console.log('wuh oh', err)
     });
 
-    this.props.comments.on('newComment', function(sectionName) {
+    comments.on('newComment', function(sectionName) {
       if (sectionName !== self.props.section) return;
 
       self.props.comments.getComments(self.props.section).then(function(data) {
@@ -91,11 +94,13 @@ var Conversation = module.exports = React.createClass({
       <div className={ classes } onClick={ this.handleConvClick }>
         { controls }
 
-        <CommentList data={ this.state.comments } />
-        <CommentForm
-          onCommentSubmit={ this.handleCommentSubmit }
-          users={ this.props.users }
-        />
+        <div className="ouija-comments">
+          <CommentList data={ this.state.comments } />
+          <CommentForm
+            onCommentSubmit={ this.handleCommentSubmit }
+            users={ this.props.users }
+          />
+        </div>
       </div>
     );
   }

@@ -107,7 +107,7 @@ Post.prototype._cacheComments = function(sections) {
   return this._comments;
 };
 
-Post.prototype.addComment = function(sectionName, comment) {
+Post.prototype.add = function(sectionName, comment) {
   var self = this;
 
   var deferred = Q.defer();
@@ -119,9 +119,8 @@ Post.prototype.addComment = function(sectionName, comment) {
     self._postRoom
       .invoke('key', keyName)
       .invoke('add', comment)
-      .then(function(result) {
-        deferred.resolve(result);
-      });
+      .then(deferred.resolve)
+      .fail(deferred.reject);
   });
 
   return deferred.promise;
