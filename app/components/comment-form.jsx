@@ -58,7 +58,8 @@ var CommentForm = module.exports = React.createClass({
         <div className="ouija-author">
           <a
             href="https://twitter.com/{ this.state.user.username }"
-            alt="display name">{ this.state.user.displayName }</a>
+            alt="{ this.state.user.displayName }">{ this.state.user.displayName }</a>
+          <button className="text" href="#">Logout</button>
         </div>
         <div className="ouija-content">
           <textarea ref="content" placeholder="Leave a comment..."></textarea>
