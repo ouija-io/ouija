@@ -20,31 +20,38 @@ var Conversation = module.exports = React.createClass({
     var $document = $(document);
     var disregardEvent = false;
 
-    $document.on('click', hideComments);
-    $currentConversation.on('click', voidClick);
-
-    function voidClick(e) {
-      disregardEvent = true;
+    this.voidClick = function(e) {
+      self.disregardEvent = true;
     }
 
-    function hideComments() {
-      if (disregardEvent) {
-        disregardEvent = false;
-        return;
-      };
-
-      $document.off('click', hideComments);
-      $currentConversation.off('click', voidClick);
-      $post.removeClass('ouija-active');
-      self.setState({ isActive: !self.state.isActive });
-    }
+    $document.on('click', this.hideComments);
+    $currentConversation.on('click', this.voidClick);
 
     $post.addClass('ouija-active');
   },
-  handleAddClick: function(e) {
-    this.setState({ isActive: !this.state.isActive });
-    this.monitorComments();
+  hideComments: function() {
+    var self = this;
 
+    if (self.disregardEvent) {
+      self.disregardEvent = false;
+      return;
+    };
+
+    var $post = $('.post-ouija');
+    var $currentConversation = $(self.getDOMNode());
+    var $document = $(document);
+
+    $document.off('click', this.hideComments);
+    $currentConversation.off('click', this.voidClick);
+    $post.removeClass('ouija-active');
+    self.setState({ isActive: false });
+  },
+  handleAddClick: function(e) {
+    if (!this.state.isActive) {
+      this.monitorComments();
+    }
+
+    this.setState({ isActive: !this.state.isActive });
     e.preventDefault();
   },
   handleConvClick: function(e) {
@@ -54,6 +61,9 @@ var Conversation = module.exports = React.createClass({
     var sectionName = this.props.section;
 
     this.props.comments.add(sectionName, comment);
+  },
+  handleCommentClose: function() {
+    this.hideComments();
   },
   componentWillMount: function() {
     var self = this;
@@ -98,6 +108,7 @@ var Conversation = module.exports = React.createClass({
           <CommentList data={ this.state.comments } />
           <CommentForm
             onCommentSubmit={ this.handleCommentSubmit }
+            onCommentCancel={ this.handleCommentClose }
             users={ this.props.users }
           />
         </div>

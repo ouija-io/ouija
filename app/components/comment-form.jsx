@@ -43,7 +43,8 @@ var CommentForm = module.exports = React.createClass({
     e.preventDefault();
   },
   handleCancel: function(e) {
-    console.log(e);
+    this.props.onCommentCancel();
+
     e.preventDefault();
   },
   render: function() {
