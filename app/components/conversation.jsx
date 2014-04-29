@@ -4,13 +4,15 @@
 'use strict';
 
 var React = require('react/addons');
+var _ = require('lodash');
 
 var CommentList = require('./comment-list');
 var CommentForm = require('./comment-form');
+var CommentControls = require('./comment-controls');
 
 var Conversation = module.exports = React.createClass({
   getInitialState: function() {
-    return { comments: {}, isActive: false };
+    return { comments: {}, isActive: false, loading: true, count: 0 };
   },
   monitorComments: function() {
     var self = this;
@@ -70,7 +72,7 @@ var Conversation = module.exports = React.createClass({
     var comments = this.props.comments;
 
     comments.getComments(this.props.section).then(function(comments) {
-      self.setState({ comments: comments });
+      self.setState({ comments: comments, loading: false, count: _.keys(comments).length });
     }).fail(function(err) {
       console.log('wuh oh', err)
     });
@@ -79,7 +81,7 @@ var Conversation = module.exports = React.createClass({
       if (sectionName !== self.props.section) return;
 
       self.props.comments.getComments(self.props.section).then(function(data) {
-        self.setState({ comments: data });
+        self.setState({ comments: data, count: _.keys(data).length });
       });
     });
   },
@@ -90,22 +92,17 @@ var Conversation = module.exports = React.createClass({
       'ouija-active': this.state.isActive
     });
 
-    var control = {
-      loader: (<a href="#" className="loader"><span className="ouija-loader"></span></a>),
-      add: (<a href="#" className="add" onClick={this.handleAddClick}>+</a>),
-      count: (<a href="#" className="add count"><span></span></a>)
-    };
-
-    var controls = (
-      <div className="ouija-controls">{ control.add }</div>
-    );
-
     return (
       <div className={ classes } onClick={ this.handleConvClick }>
-        { controls }
+        <CommentControls
+            isLoading={ this.state.loading }
+            commentCount={ this.state.count }
+            onAddClick={ this.handleAddClick }
+        />
 
         <div className="ouija-comments">
-          <CommentList data={ this.state.comments } />
+          <CommentList
+            data={ this.state.comments } />
           <CommentForm
             onCommentSubmit={ this.handleCommentSubmit }
             onCommentCancel={ this.handleCommentClose }
