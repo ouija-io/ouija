@@ -16,10 +16,6 @@ var CommmentList = module.exports = React.createClass({
       return <Comment key={id} author={author}>{comment.content}</Comment>;
     });
 
-    return (
-      <div className="ouija-comments">
-        {commentNodes}
-      </div>
-    );
+    return (<div>{ commentNodes }</div>);
   }
 });

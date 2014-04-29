@@ -61,7 +61,6 @@ $font-serif: 'Noto Serif', serif;
 
       //Add Button
       &.add {
-
         font-size: 18px;
       }
 
@@ -284,6 +283,9 @@ $font-serif: 'Noto Serif', serif;
     .ouija {
       .ouija-comments {
         margin-left: 0;
+      }
+      .ouija-controls .add {
+        opacity: 0.45;
       }
     }
   }
