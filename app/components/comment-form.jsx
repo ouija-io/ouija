@@ -31,7 +31,7 @@ var CommentForm = module.exports = React.createClass({
 
       self.setState({ user: currentUser });
     }).fail(function(err) {
-      console.log('ahh', err);
+      console.log('ahh', err.stack);
     })
   },
   handleSubmit: function(e) {
@@ -40,6 +40,10 @@ var CommentForm = module.exports = React.createClass({
     this.props.onCommentSubmit({ content: content });
     this.refs.content.getDOMNode().value = '';
 
+    e.preventDefault();
+  },
+  handleCancel: function(e) {
+    console.log(e);
     e.preventDefault();
   },
   render: function() {
@@ -58,7 +62,7 @@ var CommentForm = module.exports = React.createClass({
         <div className="ouija-content">
           <textarea ref="content" placeholder="Leave a comment..."></textarea>
           <footer>
-              <button className="text">Cancel</button>
+              <button className="text" onClick={ this.handleCancel }>Cancel</button>
               <button type="submit">Comment</button>
           </footer>
         </div>

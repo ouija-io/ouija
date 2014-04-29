@@ -7,6 +7,8 @@ var _ = require('lodash');
 var Q = require('q');
 var Emitter = require('emitter-component');
 
+Q.longStackSupport = true;
+
 module.exports = Post;
 
 function Post(identifier, connection, users) {
