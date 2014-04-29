@@ -11,7 +11,7 @@ var Login = module.exports = React.createClass({
       <form className="ouija-comment ouija-login">
           <h5>Sign in to comment</h5>
           <a href={ this.props.loginUrl } className="ouija-button">
-            <span class="icon-twitter"></span>
+            <span className="icon-twitter"></span>
             Sign in with Twitter
           </a>
       </form>
