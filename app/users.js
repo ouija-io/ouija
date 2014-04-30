@@ -81,6 +81,18 @@ Users.prototype.loginUrl = function() {
   return deferred.promise;
 };
 
+Users.prototype.logoutUrl = function() {
+  var deferred = Q.defer();
+
+  this._conn.then(function(result) {
+    var url = result.connection.logoutUrl();
+
+    deferred.resolve(url);
+  });
+
+  return deferred.promise;
+};
+
 Users.prototype.isGuest = function() {
   var deferred = Q.defer();
 

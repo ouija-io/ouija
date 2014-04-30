@@ -27,19 +27,23 @@ CommentForm.componentWillMount = function() {
   Q.all([
     users.isGuest(),
     users.getSelf(),
+    users.logoutUrl(),
     users.loginUrl()
-  ]).spread(function(isGuest, currentUser, loginUrl) {
+  ]).spread(function(isGuest, currentUser, logoutUrl, loginUrl) {
     if (isGuest) {
       return self.setState({
         isGuest: true,
-        user: currentUser,
+        user: null,
         loginComponent: (
           <Login loginUrl={ loginUrl } />
         )
       });
     }
 
-    self.setState({ user: currentUser });
+    self.setState({
+      user: currentUser,
+      logoutUrl: logoutUrl
+    });
   }).fail(function(err) {
     console.log('ahh', err.stack);
   });
@@ -75,7 +79,7 @@ CommentForm.render = function() {
           href="https://twitter.com/{ this.state.user.username }"
           alt="{ this.state.user.displayName }">{ this.state.user.displayName }
         </a>
-        <button className="text" href="#">Logout</button>
+        <a className="ouija-button text" href={ this.state.logoutUrl }>Logout</a>
       </div>
       <div className="ouija-content">
         <textarea ref="content" placeholder="Leave a comment..."></textarea>
