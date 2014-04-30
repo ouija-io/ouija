@@ -95,6 +95,12 @@ $time-function: $ease-out-expo;
       //Add Button
       &.add {
         font-size: 18px;
+        &:after {
+          display: block;
+          content: '+';
+          @include transform-origin(4px 9px);
+          @include transition(all .25s linear);
+        }
       }
 
       //Comment Count
@@ -165,7 +171,7 @@ $time-function: $ease-out-expo;
     @include user-select(none);
 
     //Overflow container
-    > section {
+    > div {
       max-height: $comments-height;
       overflow: auto;
     }
@@ -226,11 +232,6 @@ $time-function: $ease-out-expo;
         text-align: right;
       }
 
-    }
-
-    .ouija-new,
-    .ouija-login {
-      box-shadow: 0 -10px 15px 10px white;
     }
 
     .ouija-login {
@@ -354,7 +355,13 @@ $loader-color: #222;
     .ouija-controls,
     .ouija-comments { opacity: 1; }
 
-    .ouija-controls a { opacity: 0.45; }
+    .ouija-controls a {
+      opacity: 0.45;
+      &.add:after {
+        font-size: 20px;
+        @include transform(rotate(45deg));
+      }
+    }
 
     .ouija-comments {
       margin-left: 0;

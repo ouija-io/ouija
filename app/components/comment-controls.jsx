@@ -13,7 +13,7 @@ var React = require('react');
 
 var AddControl = React.createClass({
   render: function() {
-    return (<a href="#" className="add" onClick={ this.props.onClick }>+</a>);
+    return (<a href="#" className="add" onClick={ this.props.onClick }></a>);
   }
 });
 
