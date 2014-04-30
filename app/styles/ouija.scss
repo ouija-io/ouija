@@ -1,28 +1,65 @@
 /* ==========================================================================
    Ouija inline commenting for Ghost
+
+                                  ___===_*_
+                              ===+++=-==----
+                         =-=-======+==--=;-;-#
+                     =;--=-=+=-###xx=+++-----;#
+                 ===----===+X########Xxx==----#
+              =+==+;;---==#X            x#X---=#
+           +====+=;--====x               #-;---#
+        ==+===-==---==++==               -----=#
+      +=++====---===++==+=++=          ;;--====#
+     ++=++==---===+++=++=xx++==--=-+==---======#
+    ==+====--==++++=++x=-====-=----=--==++===-x#
+    +====-===+++++=x++=-==---=-==--=-+=++=====##
+    =-==--=+=++x=x+=;-=;--;-----;;;-=-====++==##
+    ##--=+++++x+===;---------=-;----==-+--===##
+     ####+==xxxx=------;-;---;;--=-=========##
+       ############x--------;----====--==-=###
+                 ######---;-----=-======--###
+                     ####-;--;---=--=+==###
+                       #####+=--==--x#####
+                          #############
+
    ========================================================================== */
 
 @import "bourbon";
 
-//Variables
+/* ==========================================================================
+   Variables
+   ========================================================================== */
+
+//Distance to push the article
+$offset: 18%;
+
+//Ouija Sizing
 $width: 300px;
 $margin: 10px;
-$offset: 18%;
-$avatar-size: 34px;
 $controls-width: $margin*4;
-$comments-height: 350px;
-$border-color: #eee;
-$link-color: #57A3E8;
 
+//Comments
+$avatar-size: 34px;
+$comments-height: 350px;
+$link-color: #57A3E8;
+$border-color: #eee;
+
+//Trigger icon SVG
 $pointer-bg: 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMzFweCIgaGVpZ2h0PSIyMXB4IiB2aWV3Qm94PSIwIDAgMzEgMjEiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMxIDIxIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxwYXRoIGZpbGw9IiNCQkMzQzgiIGQ9Ik0zMSwxMC41QzMxLDE2LjI5OSwyNi4yOTksMjEsMjAuNSwyMVMxLjYyNywxMS42NjIsMS42MjcsMTEuNjYyYy0wLjg5NS0wLjYzOS0wLjg5NS0xLjY4NSwwLTIuMzI1DQoJCUMxLjYyNyw5LjMzNywxNC43MDEsMCwyMC41LDBTMzEsNC43MDEsMzEsMTAuNXoiLz4NCjwvZz4NCjwvc3ZnPg0K';
 
+//Fonts
 $font-sans: 'Open Sans', sans-serif;
 $font-serif: 'Noto Serif', serif;
 
-//Reset Box-Sizing
+//Animation speed function
+$time-function: $ease-out-expo;
+
+/* ==========================================================================
+   Ouija Container
+   ========================================================================== */
+
 .ouija * { @include box-sizing(border-box); }
 
-//Main Element
 .ouija {
   position: absolute;
   top: 0;
@@ -31,17 +68,14 @@ $font-serif: 'Noto Serif', serif;
   z-index: 1000;
   line-height: 1em;
   overflow: hidden;
-  @include transition(right .5s $ease-out-expo .015s, width .015s linear);
 
-  //Comment Button
+  //Trigger Button
   .ouija-controls {
     position: relative;
     float: left;
     width: $controls-width;
     margin-top: $margin/2;
     z-index: 1;
-    @include transition(opacity .5s $ease-out-expo);
-    @include transition-delay(.8s); //Delay fade out
 
     a {
       display: block;
@@ -53,8 +87,6 @@ $font-serif: 'Noto Serif', serif;
       font-size: 13px;
       font-family: $font-sans;
       color: #222;
-      opacity: .85;
-      @include transition(all .2s $ease-out-expo);
       -webkit-font-smoothing: antialiased;
       &:hover {
         opacity: 1;
@@ -63,6 +95,12 @@ $font-serif: 'Noto Serif', serif;
       //Add Button
       &.add {
         font-size: 18px;
+        &:after {
+          display: block;
+          content: '+';
+          @include transform-origin(4px 9px);
+          @include transition(all .25s linear);
+        }
       }
 
       //Comment Count
@@ -90,6 +128,7 @@ $font-serif: 'Noto Serif', serif;
 
   }
 
+  //Comment form controls
   button,
   .ouija-button {
     position: relative;
@@ -123,23 +162,23 @@ $font-serif: 'Noto Serif', serif;
     }
   }
 
-  //Comments
+  //Comments Container
   .ouija-comments {
     float: left;
     width: $width - $controls-width;
-    margin-left: -$width;
     font-size: 13px;
     font-family: $font-sans;
     @include user-select(none);
 
     //Overflow container
-    > section {
+    > div {
       max-height: $comments-height;
       overflow: auto;
     }
 
   }
 
+    //Comment styling
     .ouija-comment {
       position: relative;
       min-height: 40px;
@@ -195,11 +234,6 @@ $font-serif: 'Noto Serif', serif;
 
     }
 
-    .ouija-new,
-    .ouija-login {
-      box-shadow: 0 -10px 15px 10px white;
-    }
-
     .ouija-login {
       text-align: center;
       border-radius: 3px;
@@ -237,82 +271,14 @@ $font-serif: 'Noto Serif', serif;
 
 }
 
-
 /* ==========================================================================
-   States
+   Loader
    ========================================================================== */
 
 
-.post-ouija {
-  position: relative;
-  right: 0;
-  @include transition(right .5s $ease-out-expo);
-
-  //Active post
-  &.ouija-active { right: $offset; }
-
-  .ouija {
-
-    &.ouija-active {
-      width: $width;
-      right: - ($width + $margin);
-
-      .ouija-controls,
-      .ouija-controls a,
-      .ouija-comments { opacity: 1; }
-
-      .ouija-comments {
-        margin-left: 0;
-      }
-
-    }
-
-    //Comment Button
-    .ouija-controls { opacity: 0; }
-
-    //Comment List
-    .ouija-comments {
-      opacity: 0;
-      @include user-select(all);
-      @include transition(opacity .5s $ease-out-expo, margin-left .5s $ease-out-expo);
-    }
-
-  }
-
-  //Changes made when post is active
-  &.ouija-active {
-    .ouija {
-      .ouija-comments {
-        margin-left: 0;
-      }
-      .ouija-controls .add {
-        opacity: 0.45;
-      }
-    }
-  }
-
-  p {
-    position: relative;
-    &:hover {
-      .ouija .ouija-controls {
-        opacity: 1;
-        @include transition-delay(0);
-      }
-    }
-  }
-
-}
-
-//Spinner
 @include keyframes(ouija-load) {
-
-  0% {
-    @include transform(rotate(0deg));
-  }
-  100% {
-    @include transform(rotate(360deg));
-  }
-
+  0%   { @include transform(rotate(0deg));   }
+  100% { @include transform(rotate(360deg)); }
 }
 
 $loader-size: 14px;
@@ -329,4 +295,79 @@ $loader-color: #222;
   overflow: hidden;
   text-indent: -9999px;
   @include animation(ouija-load .75s infinite linear);
+}
+
+
+
+/* ==========================================================================
+   UI States
+   ========================================================================== */
+
+
+.post-ouija {
+  position: relative;
+  right: 0;
+  @include transition(right .5s $time-function);
+
+  //Active post
+  &.ouija-active { right: $offset; }
+
+  //Trigger Ouija to show on hover of article
+  p {
+    position: relative;
+    &:hover {
+      .ouija .ouija-controls {
+        opacity: 1;
+        @include transition-delay(0);
+      }
+    }
+  }
+
+}
+
+.ouija {
+
+  //Comment Button
+  .ouija-controls {
+    opacity: 0;
+    @include transition(opacity .5s $time-function);
+    @include transition-delay(.8s); //Delay fade out of conrols
+
+    a {
+      opacity: .85;
+      @include transition(all .2s $time-function);
+    }
+
+  }
+
+  //Comment List
+  .ouija-comments {
+    opacity: 0;
+    margin-left: -$width/2;
+    @include user-select(all);
+  }
+
+  //Active Ouija
+  &.ouija-active {
+    width: $width;
+    right: - ($width + $margin);
+
+    .ouija-controls,
+    .ouija-comments { opacity: 1; }
+
+    .ouija-controls a {
+      opacity: 0.45;
+      &.add:after {
+        font-size: 20px;
+        @include transform(rotate(45deg));
+      }
+    }
+
+    .ouija-comments {
+      margin-left: 0;
+      @include transition(all .25s $time-function, margin-left .5s $time-function);
+    }
+
+  }
+
 }
