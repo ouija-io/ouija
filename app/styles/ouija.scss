@@ -6,7 +6,7 @@
 
 //Variables
 $width: 300px;
-$margin: 12px;
+$margin: 10px;
 $offset: 18%;
 $avatar-size: 34px;
 $controls-width: $margin*4;
@@ -31,6 +31,7 @@ $font-serif: 'Noto Serif', serif;
   z-index: 1000;
   line-height: 1em;
   overflow: hidden;
+  @include transition(right .5s $ease-out-expo .015s, width .015s linear);
 
   //Comment Button
   .ouija-controls {
@@ -61,13 +62,11 @@ $font-serif: 'Noto Serif', serif;
 
       //Add Button
       &.add {
-        display: none;
         font-size: 18px;
       }
 
       //Comment Count
       &.count {
-        display: none;
         letter-spacing: -1px;
         span {
           display: block;
@@ -216,7 +215,8 @@ $font-serif: 'Noto Serif', serif;
         text-decoration: none;
         font-size: 14px;
         padding: 7px 10px;
-        span {
+        [class^="icon-"],
+        [class*=" icon-"] {
           position: relative;
           top: 2px;
           margin-right: 5px;
@@ -284,6 +284,9 @@ $font-serif: 'Noto Serif', serif;
     .ouija {
       .ouija-comments {
         margin-left: 0;
+      }
+      .ouija-controls .add {
+        opacity: 0.45;
       }
     }
   }

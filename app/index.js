@@ -3,16 +3,17 @@
 
 'use strict';
 
-require('./jquery-plugins');
+/**
+ * @fileOverview
+ *
+ * We abstract retrieving the configuration options and instantiate Ouija here
+ **/
 
-// Ouija component class
 var Ouija = require('./ouija');
 
 var config = {
-  // Unique identifier for each page where Ouija is present
-  identifier: window.ouija_identifier,
-  // GoInstant connect URL
-  connect_url: window.ouija_connect_url
+  identifier: window.ouija_identifier,  // Ghost Post UID
+  connect_url: window.ouija_connect_url // GoInstant connect URL
 };
 
 var ouija = new Ouija(config);

@@ -3,12 +3,31 @@
 
 'use strict';
 
+/**
+ * @fileOverview
+ *
+ * This file should contain a Post model, except... it's a mess
+ **/
+
 var _ = require('lodash');
 var Q = require('q');
 var Emitter = require('emitter-component');
 
+Q.longStackSupport = true; // TODO: Remove in Beta
+
 module.exports = Post;
 
+/**
+ * The Post class abstracts retrieving and adding the comments associated
+ * with a single Ghost article
+ *
+ * @public
+ * @class
+ * @constructor
+ * @param {int} identifier - Post UID
+ * @param {Deferred} connection - GoInstant connection promise
+ * @param {Object} users - Users instance
+ */
 function Post(identifier, connection, users) {
   _.extend(this, {
     _identifier: identifier,
@@ -107,7 +126,7 @@ Post.prototype._cacheComments = function(sections) {
   return this._comments;
 };
 
-Post.prototype.addComment = function(sectionName, comment) {
+Post.prototype.add = function(sectionName, comment) {
   var self = this;
 
   var deferred = Q.defer();
@@ -119,9 +138,8 @@ Post.prototype.addComment = function(sectionName, comment) {
     self._postRoom
       .invoke('key', keyName)
       .invoke('add', comment)
-      .then(function(result) {
-        deferred.resolve(result);
-      });
+      .then(deferred.resolve)
+      .fail(deferred.reject);
   });
 
   return deferred.promise;

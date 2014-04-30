@@ -1,7 +1,7 @@
 {
   "name": "ouija",
   "version": "0.0.0",
-  "description": "Very Ghostly Commenting & Annotation System",
+  "description": "Spirited Conversation & Annotation System",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -33,11 +33,10 @@
     "gulp-livereload": "~1.3.1",
     "gulp-browserify": "~0.5.0",
     "q": "~1.0.1",
-    "handlebars": "~1.3.0",
-    "hbsfy": "~1.3.2",
-    "emitter-component": "~1.1.1",
     "gulp-sass": "~0.7.1",
     "node-bourbon": "~1.2.2",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "reactify": "^0.13.1",
+    "react": "^0.10.0"
   }
 }

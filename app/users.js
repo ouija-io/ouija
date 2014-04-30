@@ -3,8 +3,16 @@
 
 'use strict';
 
+/**
+ * @fileOverview
+ *
+ * This file should contain a User model, except... it's a mess
+ **/
+
 var _ = require('lodash');
-var q = require('q');
+var Q = require('q');
+
+Q.longStackSupport = true;
 
 var USER_PROPERTIES = ['displayName', 'avatarUrl', 'id', 'username'];
 var USER_METADATA = ['status'];
@@ -19,7 +27,7 @@ function Users(conn) {
   this._cache = {};
   this._users = {};
   this._localId = null;
-  this._localDeferred = q.defer();
+  this._localDeferred = Q.defer();
 
   this._initialize();
 }
@@ -38,10 +46,7 @@ Users.prototype._initialize = function() {
 
     self._localId = user.id;
     self._updateUser(user);
-
-  }).catch(function(err) {
-    throw err;
-  });
+  }).fail(this._localDeferred.reject);
 };
 
 Users.prototype._updateUser = function(user) {
@@ -49,6 +54,7 @@ Users.prototype._updateUser = function(user) {
 
   this.isGuest().then(function(isGuest) {
     if (isGuest) {
+      self._localDeferred.resolve(null);
       return;
     }
 
@@ -64,7 +70,7 @@ Users.prototype._updateUser = function(user) {
 };
 
 Users.prototype.loginUrl = function() {
-  var deferred = q.defer();
+  var deferred = Q.defer();
 
   this._conn.then(function(result) {
     var url = result.connection.loginUrl('twitter');
@@ -76,7 +82,7 @@ Users.prototype.loginUrl = function() {
 };
 
 Users.prototype.isGuest = function() {
-  var deferred = q.defer();
+  var deferred = Q.defer();
 
   this._conn.then(function(result) {
     var isGuest = result.connection.isGuest();
@@ -92,7 +98,7 @@ Users.prototype.getSelf = function() {
 };
 
 Users.prototype.getUser = function(id) {
-  var deferred = q.defer();
+  var deferred = Q.defer();
 
   var user = this._cache[id];
 
