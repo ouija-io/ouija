@@ -31,6 +31,7 @@ $font-serif: 'Noto Serif', serif;
   z-index: 1000;
   line-height: 1em;
   overflow: hidden;
+  @include transition(right .5s $ease-out-expo .015s, width .015s linear);
 
   //Comment Button
   .ouija-controls {
