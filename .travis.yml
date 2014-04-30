@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- '0.10'
+before_install:
+- npm install -g gulp
+after_success:
+- node deploy/deploy.js
+notifications:
+  hipchat:
+    rooms:
+      template:
+    - '<a href="%{build_url}">%{branch}</a> - <a href="%{compare_url}">%{commit}</a>
+      : %{message}'
+    format: html
+env:
+  global:

@@ -1,6 +1,6 @@
 {
   "name": "ouija",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Spirited Conversation & Annotation System",
   "main": "index.js",
   "scripts": {
@@ -37,6 +37,11 @@
     "node-bourbon": "~1.2.2",
     "lodash": "~2.4.1",
     "reactify": "^0.13.1",
-    "react": "^0.10.0"
+    "react": "^0.10.0",
+    "github": "0.1.16",
+    "node-hipchat": "0.4.5",
+    "aws-sdk": "2.0.*",
+    "async": "0.7.0",
+    "mime": "1.2.11"
   }
 }

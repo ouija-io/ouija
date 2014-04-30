@@ -1,0 +1,7 @@
+{
+  "source": "dist",
+  "user": "goinstant",
+  "repo": "ouija",
+  "namespace": "ext",
+  "bucket": "cdn.platform-staging.goinstant.org"
+}
