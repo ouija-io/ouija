@@ -19,6 +19,8 @@ $pointer-bg: 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZX
 $font-sans: 'Open Sans', sans-serif;
 $font-serif: 'Noto Serif', serif;
 
+
+
 //Reset Box-Sizing
 .ouija * { @include box-sizing(border-box); }
 
@@ -31,7 +33,7 @@ $font-serif: 'Noto Serif', serif;
   z-index: 1000;
   line-height: 1em;
   overflow: hidden;
-  @include transition(right .5s $ease-out-expo .015s, width .015s linear);
+  @include transition(all .5s $ease-out-expo);
 
   //Comment Button
   .ouija-controls {
@@ -256,6 +258,7 @@ $font-serif: 'Noto Serif', serif;
     &.ouija-active {
       width: $width;
       right: - ($width + $margin);
+      @include transition(all .5s $ease-out-expo, width .25s $ease-out-expo);
 
       .ouija-controls,
       .ouija-controls a,
