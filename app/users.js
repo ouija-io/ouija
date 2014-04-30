@@ -3,6 +3,12 @@
 
 'use strict';
 
+/**
+ * @fileOverview
+ *
+ * This file should contain a User model, except... it's a mess
+ **/
+
 var _ = require('lodash');
 var Q = require('q');
 
@@ -36,7 +42,6 @@ Users.prototype._initialize = function() {
     return self._room.self().get();
 
   }).then(function(result) {
-    console.log(result);
     var user = result.value;
 
     self._localId = user.id;

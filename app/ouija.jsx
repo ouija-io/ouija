@@ -3,15 +3,34 @@
 
 'use strict';
 
-var _ = require('lodash');
+/**
+ * @fileOverview
+ *
+ * This file contains the hot, gooey class at the center of Ouija
+ **/
+
 var React = require('react');
+var _ = require('lodash');
 
 var Post = require('./post');
 var Users = require('./users');
+
 var Conversation = require('./components/conversation');
 
 module.exports = Ouija;
 
+/**
+ * The Ouija class is responsible for:
+ *   (a) connecting to GoInstant
+ *   (b) creating User & Post instances
+ *   (c) identifying relevant DOM nodes
+ *   (d) creating and inserting the Conversation components
+ *
+ * @public
+ * @class
+ * @constructor
+ * @param {Object} config
+ */
 function Ouija(config) {
   _.extend(this, {
     _url: config.connect_url,
@@ -36,24 +55,10 @@ Ouija.prototype.initialize = function() {
 };
 
 Ouija.prototype._connect = function() {
-  var options = {
-    room: ['lobby', this._getIdentifier()]
-  };
-
-  return goinstant.connect(this._url, options);
+  return goinstant.connect(this._url, {
+    room: ['lobby', 'post_' + window.ouija_identifier]
+  });
 };
-
-Ouija.prototype._getIdentifier = function() {
-  if (!this._identifier) {
-    return _.reject(document.location.pathname.split('/'), _.isEmpty)[0];
-  }
-
-  return 'post_' + window.ouija_identifier;
-};
-
-function CommentView(post, users) {
-
-}
 
 Ouija.prototype._parseContent = function() {
   this._el.content = $('.post-content');

@@ -3,14 +3,31 @@
 
 'use strict';
 
+/**
+ * @fileOverview
+ *
+ * This file should contain a Post model, except... it's a mess
+ **/
+
 var _ = require('lodash');
 var Q = require('q');
 var Emitter = require('emitter-component');
 
-Q.longStackSupport = true;
+Q.longStackSupport = true; // TODO: Remove in Beta
 
 module.exports = Post;
 
+/**
+ * The Post class abstracts retrieving and adding the comments associated
+ * with a single Ghost article
+ *
+ * @public
+ * @class
+ * @constructor
+ * @param {int} identifier - Post UID
+ * @param {Deferred} connection - GoInstant connection promise
+ * @param {Object} users - Users instance
+ */
 function Post(identifier, connection, users) {
   _.extend(this, {
     _identifier: identifier,

@@ -3,19 +3,32 @@
 
 'use strict';
 
+/**
+ * @fileOverview
+ *
+ * Comment-list React Component
+ **/
+
 var React = require('react');
 var _ = require('lodash');
 
 var Comment = require('./comment');
 
-var CommmentList = module.exports = React.createClass({
-  render: function() {
-    var commentNodes = _.map(this.props.data, function (comment, id) {
-      var author = _.pick(comment, ['displayName', 'userId', 'username', 'avatarUrl']);
+var CommmentList = {}
 
-      return <Comment key={id} author={author}>{comment.content}</Comment>;
-    });
+CommmentList.render = function() {
+  var commentNodes = _.map(this.props.data, function (comment, id) {
+    var author = _.pick(comment, [
+      'displayName',
+      'userId',
+      'username',
+      'avatarUrl'
+    ]);
 
-    return (<div>{ commentNodes }</div>);
-  }
-});
+    return (<Comment key={id} author={author}>{comment.content}</Comment>);
+  });
+
+  return (<div>{ commentNodes }</div>);
+};
+
+module.exports = React.createClass(CommmentList);
