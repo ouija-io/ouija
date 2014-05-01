@@ -93,6 +93,54 @@
         "*"
       ]
     },
+    ".users": {
+      "$userId": {
+        "#write": {
+          "users": [
+            "$userId"
+          ],
+          "groups": []
+        },
+        "#read": {
+          "users": [
+            "*"
+          ]
+        },
+        "email": {
+          "#write": {},
+          "#read": {
+            "users": [
+              "$userId"
+            ],
+            "groups": []
+          }
+        },
+        "id": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        },
+        "groups": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        },
+        "provider": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        }
+      }
+    },
     "cachedUsers": {
       "#all": {},
       "#read": {
@@ -102,16 +150,6 @@
       },
       "$userId": {
         "#write": {
-          "users": [
-            "$userId"
-          ]
-        }
-      }
-    },
-    ".users": {
-      "$userId": {
-        "#all": {},
-        "#read": {
           "users": [
             "$userId"
           ]
