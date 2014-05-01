@@ -498,7 +498,8 @@ Ouija.prototype._connect = function() {
 };
 
 Ouija.prototype._parseContent = function() {
-  this._el.content = $('.post-content');
+  var selector = window.ouija_article_content || '.post-content';
+  this._el.content = $(selector);
   this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
     return _($(el).text()).isEmpty();
   });

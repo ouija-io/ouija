@@ -247,9 +247,9 @@
   transition: right 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
   .post-ouija.ouija-active {
     right: 18%; }
-  .post-ouija p {
+  .post-ouija p, .post-ouija ol, .post-ouija ul, .post-ouija > img {
     position: relative; }
-    .post-ouija p:hover .ouija .ouija-controls {
+    .post-ouija p:hover .ouija .ouija-controls, .post-ouija ol:hover .ouija .ouija-controls, .post-ouija ul:hover .ouija .ouija-controls, .post-ouija > img:hover .ouija .ouija-controls {
       opacity: 1;
       -webkit-transition-delay: 0;
       -moz-transition-delay: 0;

@@ -40,8 +40,8 @@
 .ouija-loader{display:inline-block;position:relative;width:14px;height:14px;border:3px solid #222;border-left-color:transparent;border-radius:7px;overflow:hidden;text-indent:-9999px;-webkit-animation:ouija-load .75s infinite linear;-moz-animation:ouija-load .75s infinite linear;animation:ouija-load .75s infinite linear}
 .post-ouija{position:relative;right:0;-webkit-transition:right .5s cubic-bezier(0.19,1,.22,1);-moz-transition:right .5s cubic-bezier(0.19,1,.22,1);transition:right .5s cubic-bezier(0.19,1,.22,1)}
 .post-ouija.ouija-active{right:18%}
-.post-ouija p{position:relative}
-.post-ouija p:hover .ouija .ouija-controls{opacity:1;-webkit-transition-delay:0;-moz-transition-delay:0;transition-delay:0}
+.post-ouija ol,.post-ouija p,.post-ouija ul,.post-ouija>img{position:relative}
+.post-ouija ol:hover .ouija .ouija-controls,.post-ouija p:hover .ouija .ouija-controls,.post-ouija ul:hover .ouija .ouija-controls,.post-ouija>img:hover .ouija .ouija-controls{opacity:1;-webkit-transition-delay:0;-moz-transition-delay:0;transition-delay:0}
 .ouija .ouija-controls{opacity:0;-webkit-transition:opacity .5s cubic-bezier(0.19,1,.22,1);-moz-transition:opacity .5s cubic-bezier(0.19,1,.22,1);transition:opacity .5s cubic-bezier(0.19,1,.22,1);-webkit-transition-delay:.8s;-moz-transition-delay:.8s;transition-delay:.8s}
 .ouija .ouija-controls a{opacity:.85;-webkit-transition:all .2s cubic-bezier(0.19,1,.22,1);-moz-transition:all .2s cubic-bezier(0.19,1,.22,1);transition:all .2s cubic-bezier(0.19,1,.22,1)}
 .ouija .ouija-comments{opacity:0;margin-left:-150px;-webkit-user-select:all;-moz-user-select:all;-ms-user-select:all;user-select:all}
