@@ -313,8 +313,11 @@ $loader-color: #222;
   //Active post
   &.ouija-active { right: $offset; }
 
-  //Trigger Ouija to show on hover of article
-  p {
+  //Trigger Ouija to show on hover of these elements
+  p,
+  ol,
+  ul,
+  > img  {
     position: relative;
     &:hover {
       .ouija .ouija-controls {
