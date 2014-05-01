@@ -2,6 +2,6 @@
   "source": "dist",
   "user": "goinstant",
   "repo": "ouija",
-  "namespace": "ext",
+  "namespace": "external",
   "bucket": "cdn.platform-staging.goinstant.org"
 }
