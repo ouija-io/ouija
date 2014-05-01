@@ -1,0 +1,165 @@
+{
+  "$room": {
+    "#join": {
+      "users": [
+        "*"
+      ]
+    },
+    "#visible": {
+      "users": [
+        "*"
+      ]
+    },
+    "#all": {
+      "users": [
+        "*"
+      ]
+    },
+    ".users": {
+      "$userId": {
+        "#write": {
+          "users": [
+            "$userId"
+          ],
+          "groups": []
+        },
+        "#read": {
+          "users": [
+            "*"
+          ]
+        },
+        "email": {
+          "#write": {},
+          "#read": {
+            "users": [
+              "$userId"
+            ],
+            "groups": []
+          }
+        },
+        "id": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        },
+        "groups": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        },
+        "provider": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        }
+      }
+    },
+    "sections": {
+      "#all": {},
+      "#read": {
+        "users": [
+          "*"
+        ]
+      },
+      "#add": {
+        "users": [
+          "*"
+        ]
+      }
+    }
+  },
+  "lobby": {
+    "#join": {
+      "users": [
+        "*"
+      ]
+    },
+    "#visible": {
+      "users": [
+        "*"
+      ]
+    },
+    "#all": {
+      "users": [
+        "*"
+      ]
+    },
+    ".users": {
+      "$userId": {
+        "#write": {
+          "users": [
+            "$userId"
+          ],
+          "groups": []
+        },
+        "#read": {
+          "users": [
+            "*"
+          ]
+        },
+        "email": {
+          "#write": {},
+          "#read": {
+            "users": [
+              "$userId"
+            ],
+            "groups": []
+          }
+        },
+        "id": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        },
+        "groups": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        },
+        "provider": {
+          "#all": {},
+          "#get": {
+            "users": [
+              "*"
+            ]
+          }
+        }
+      }
+    },
+    "cachedUsers": {
+      "#all": {},
+      "#read": {
+        "users": [
+          "*"
+        ]
+      },
+      "$userId": {
+        "#write": {
+          "users": [
+            "$userId"
+          ]
+        }
+      }
+    }
+  },
+  "#connect": {
+    "users": [
+      "*"
+    ]
+  }
+}

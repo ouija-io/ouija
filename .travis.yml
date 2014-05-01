@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+- '0.10'
+before_install:
+- npm install -g gulp
+before_script:
+- gulp build
+after_success:
+- node deploy/deploy.js
+notifications:
+  hipchat:
+    rooms:
+      secure: dtqcEHHl3llzuyRBL1lutQOGbfU6RAzbQuEgijoWD1iP21q4Khj4UJCObQ5dCx3Kfc6/VP2o2l597afcjdsCuWV04tqeyFrvSFcxAdVZDpSnaSfj4xmzRI5+OwIID/+spTgMo2Duxu23yC4fGRFzVAxexs3QA/qyu1Re7eEgKww=
+    template:
+    - '<a href="%{build_url}">%{branch}</a> - <a href="%{compare_url}">%{commit}</a>
+      : %{message}'
+    format: html
+env:
+  global:
+  - secure: c0xU8GirCCHM65ZMo7ZXVa2Ra8uPZXWT7wDz/GlO2Q6AJSl7ni+XKsKOCQEWqEEnZJWRi3jOwDEnkzx7bohEdPd8VB4JddloqjJKLmEApomwqPXfoAamQxJluM9b4AI6VIOTEfdFftpEudr4krXbU0D085JIYhDU57I3F17fcuA=
+  - secure: XUT7XOlzwfXi+wHNyrgYFpSQGeSB6COrBsf1UMPqql0f/oIoyENAsW1KEpllDiF9/L7wy7U1ktFm2BuB+H2W8GMDHqtAsKDM8DRqYeD3ZrAt+djWzQmvFgdI9Sl5xLUdrvvdUXAmGkF7+XRLrXp715N8jBGBXlMN0G9d1zj1Yrc=
+  - secure: KJS+ofxvbnD9yvW34dFHlT1D1MUhe3eOQwf6TC62fZ9BKlWTSKG3B3JvfMuLMsW7mtafTaswD9FYCiGcyXTNbh/S13glvt5aIsY7MeMfhXdos7YfNlzHP6znzWSepQzmRw4AR2H4DFTXxB1skh9+d/ePbGQhgLuh0CKxUMBNqAY=
+  - secure: Yi/5ZVdWl90ieppK+r96LGmCoOgNrNehAbTDJfhunsZdPk9FtbZNXZF77WgSymHMc7pEwKBhfC8ZHmhr+5ebbhG0R8QqifMcuMoNQzQY/qPdk+gNDlzoxZ34k/UdY4d18RI2DwJMRid+sBn+m6kBoi/lqyw80T5Ms4zL1YNBIlE=
