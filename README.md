@@ -6,7 +6,7 @@ Ouija brings inline commenting to your Ghost blog. See below for install instruc
 
 ## Quick Install
 
-1. Paste the Ouija CSS into the `<head>` section of your theme's `default.hbs` file. `<link rel="stylesheet" href="http://cdn.goinstant.net/ext/ouija/0.1.0/ouija.min.css"></script>`
+1. Paste the Ouija CSS into the `<head>` section of your theme's `default.hbs` file. `<link rel="stylesheet" href="http://cdn.goinstant.net/external/ouija/0.1.0/ouija.min.css"></script>`
 
 2. Paste the following snippet before the closing `</body>` tag. Replace `YOURACCOUNT/YOURAPP` with your GoInstant details.
 Need a GoInstant connect URL? [Sign up here](https://goinstant.com/signup?src=ouija).
@@ -18,7 +18,7 @@ Need a GoInstant connect URL? [Sign up here](https://goinstant.com/signup?src=ou
     window.ouija_identifier = {{id}};
   </script>
   <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
-  <script src="http://cdn.goinstant.net/ext/ouija/0.1.0/ouija.min.css"></script>
+  <script src="http://cdn.goinstant.net/external/ouija/0.1.0/ouija.min.css"></script>
 {{/with}}
 ```
 
