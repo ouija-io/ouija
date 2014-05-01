@@ -76,7 +76,7 @@ CommentForm.render = function() {
       </span>
       <div className="ouija-author">
         <a
-          href="https://twitter.com/{ this.state.user.username }"
+          href={ "https://twitter.com/" + this.state.user.username }
           alt="{ this.state.user.displayName }">{ this.state.user.displayName }
         </a>
         <a className="ouija-button text" href={ this.state.logoutUrl }>Logout</a>

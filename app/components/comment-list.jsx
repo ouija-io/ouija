@@ -14,9 +14,25 @@ var _ = require('lodash');
 
 var Comment = require('./comment');
 
-var CommmentList = {}
+var CommentList = {}
 
-CommmentList.render = function() {
+CommentList.componentWillUpdate = function() {
+  var node = this.getDOMNode();
+
+  if (node.scrollTop) {
+    var scrollPos = node.scrollTop + node.offsetHeight;
+    this.shouldScrollBottom = scrollPos >= node.scrollHeight*0.8;
+  }
+};
+
+CommentList.componentDidUpdate = function() {
+  if (this.shouldScrollBottom) {
+    var node = this.getDOMNode();
+    node.scrollTop = node.scrollHeight;
+  }
+}
+
+CommentList.render = function() {
   var commentNodes = _.map(this.props.data, function (comment, id) {
     var author = _.pick(comment, [
       'displayName',
@@ -31,4 +47,4 @@ CommmentList.render = function() {
   return (<div>{ commentNodes }</div>);
 };
 
-module.exports = React.createClass(CommmentList);
+module.exports = React.createClass(CommentList);

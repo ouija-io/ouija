@@ -20,7 +20,7 @@ Comment.render = function() {
         <img src={ this.props.author.avatarUrl } alt="avatar"/>
       </span>
       <div className="ouija-author">
-        <a href="https://twitter.com/{ author.username }" alt="Timestamp">
+        <a href={ "https://twitter.com/" + this.props.author.username } alt="Timestamp">
           { this.props.author.displayName }
         </a>
       </div>

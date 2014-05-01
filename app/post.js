@@ -149,6 +149,6 @@ Post.prototype.getComments = function(sectionName) {
   var self = this;
 
   return this._cached.promise.then(function() {
-    return self._comments[sectionName] || null;
+    return _.sortBy(self._comments[sectionName], 'id') || null;
   });
 };

@@ -3,31 +3,69 @@
 'use strict';
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var gulpLoadPlugins = require('gulp-load-plugins');
+var minifyCss = require('gulp-minify-css');
 var plugins = gulpLoadPlugins();
+var config = require('./config/ouija.json');
 
-var pathTo = {
-  styles: 'app/styles/**.scss',
-  entry: 'app/index.js',
-  watch: ['app/**.js', 'app/**.jsx', 'app/components/**.jsx', 'app/styles/**.scss'],
-  casperThemeJs: '../../themes/casper/assets/js/',
-  casperThemeCss: '../../themes/casper/assets/css/'
-};
+function Paths() {
+  this.assets = '../../themes/' + config.theme + '/assets/';
+  this.styles = 'app/styles/**.scss';
+  this.entry = 'app/index.js';
+  this.dist = 'dist/';
+  this.distScripts = this.assets + 'js/';
+  this.distStyles = this.assets + 'css/';
+  this.watch = [
+    '**.js',
+    '**.jsx',
+    'components/**.jsx',
+    'styles/**.scss'
+  ].map(function(path) {
+    return 'app/' + path;
+  });
+}
 
-// Compile ES6 modules and drop them into the Capser theme directory
+var pathTo = new Paths();
+
+gulp.task('build', function() {
+  gulp.src(pathTo.styles)
+    .pipe(plugins.sass({
+      includePaths: require('node-bourbon').includePaths
+    }))
+    .pipe(plugins.rename('ouija.css'))
+    .pipe(gulp.dest(pathTo.dist))
+    .pipe(minifyCss({ keepBreaks:true }))
+    .pipe(plugins.rename('ouija.min.css'))
+    .pipe(gulp.dest(pathTo.dist));
+
+  gulp.src(pathTo.entry)
+    .pipe(plugins.browserify({
+      insertGlobals : false,
+      debug: false,
+      transform: ['reactify'],
+      extensions: '.jsx'
+    }))
+    .pipe(plugins.rename('ouija.js'))
+    .pipe(gulp.dest(pathTo.dist))
+    .pipe(plugins.uglify({ outSourceMap: true, mangle: false }))
+    .pipe(plugins.rename('ouija.min.js'))
+    .pipe(gulp.dest(pathTo.dist));
+});
+
 gulp.task('develop', ['sass'], function() {
   gulp.src(pathTo.entry)
     .pipe(plugins.browserify({
       insertGlobals : false,
       debug: !gulp.env.production,
-      transform: ['hbsfy', 'reactify'],
+      transform: ['reactify'],
       extensions: '.jsx'
     }))
     .pipe(plugins.rename('ouija.js'))
-    .pipe(gulp.dest(pathTo.casperThemeJs));
+    .pipe(gulp.dest(pathTo.distScripts));
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', function() {
   gulp.src(pathTo.styles)
     .pipe(plugins.sass({
       errLogToConsole: true,
@@ -35,7 +73,7 @@ gulp.task('sass', function () {
       includePaths: require('node-bourbon').includePaths
     }))
     .pipe(plugins.rename('ouija.css'))
-    .pipe(gulp.dest(pathTo.casperThemeCss));
+    .pipe(gulp.dest(pathTo.distStyles));
 });
 
 // Run the develop task when a file change changes

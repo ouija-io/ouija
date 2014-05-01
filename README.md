@@ -29,3 +29,9 @@ _Note: The gulp develop task will deploy a compiled `ouija.js` file to `themes/c
 
 ##### Created by GoInstant
 [![GoInstant](http://goinstant.com/static/img/logo.png)](http://goinstant.com)
+
+## License
+
+&copy; 2014 GoInstant Inc., a salesforce.com company
+
+Licensed under the BSD 3-clause license.
