@@ -99,7 +99,7 @@ Conversation.componentWillMount = function() {
 
 Conversation.render = function() {
   var cx = React.addons.classSet;
-    var classes = cx({
+  var classes = cx({
     'ouija': true,
     'ouija-active': this.state.isActive
   });
