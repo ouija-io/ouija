@@ -33,8 +33,9 @@ module.exports = Ouija;
  */
 function Ouija(config) {
   _.extend(this, {
-    _url: config.connect_url,
+    _url: config.connectUrl,
     _identifier: config.identifier,
+    _articleContent: config.articleContent,
     _el: {}
   });
 }
@@ -51,18 +52,20 @@ Ouija.prototype.initialize = function() {
   this._labelSections();
   this._renderSections();
 
-  $('article.post').addClass('post-ouija');
+  $('article').addClass('post-ouija');
 };
 
 Ouija.prototype._connect = function() {
+  var self = this;
+
   return goinstant.connect(this._url, {
-    room: ['lobby', 'post_' + window.ouija_identifier]
+    room: ['lobby', 'post_' + self._identifier]
   });
 };
 
 Ouija.prototype._parseContent = function() {
-  var selector = window.ouija_article_content || '.post-content';
-  this._el.content = $(selector);
+  this._el.content = $(this._articleContent);
+
   this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
     return _($(el).text()).isEmpty();
   });
