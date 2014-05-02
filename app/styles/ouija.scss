@@ -38,12 +38,12 @@
 // You must set the unused value to false.
 
 // Push the article
-$offset-push: false;
+$offset-push: 18%;
 
 // Resize the article
 // If using resize, set $offset-width-original to your article's original
 // width. If you don't set it, the article won't transition with an animation.
-$offset-width: 73%;
+$offset-width: false;
 $offset-width-original: 100%;
 
 // Ouija Sizing
@@ -368,11 +368,10 @@ $loader-color: #222;
   }
 
   //Trigger Ouija to show on hover of these elements
-  > p,
-  > ol,
-  > ul,
-  > blockquote,
-  > img {
+  p,
+  ol,
+  ul,
+  blockquote {
     position: relative;
     &:hover {
       .ouija .ouija-controls {
