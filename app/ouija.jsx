@@ -36,6 +36,7 @@ function Ouija(config) {
     _url: config.connectUrl,
     _identifier: config.identifier,
     _articleContent: config.articleContent,
+    _sectionElements: config.sectionElements,
     _el: {}
   });
 }
@@ -63,12 +64,17 @@ Ouija.prototype._connect = function() {
   });
 };
 
+Ouija.prototype._getSections = function(content) {
+  return content
+      .children(this._sectionElements)
+      .filter(function(el) {
+         return $(el).not(':empty');
+      });
+};
+
 Ouija.prototype._parseContent = function() {
   this._el.content = $(this._articleContent);
-
-  this._el.sections = _.reject(this._el.content.find('p, ol'), function(el) {
-    return _($(el).text()).isEmpty();
-  });
+  this._el.sections = this._getSections(this._el.content);
 };
 
 Ouija.prototype._labelSections = function() {
