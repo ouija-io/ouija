@@ -24,38 +24,74 @@
 
    ========================================================================== */
 
-@import "bourbon";
+@import 'bourbon';
 
-/* ==========================================================================
-   Variables
-   ========================================================================== */
+// ========================================================================== */
+// Templating Variables
+// Use these variables to tweak Ouija to work with your theme.
+// ========================================================================== */
 
-//Distance to push the article
-$offset: 18%;
 
-//Ouija Sizing
+// Ouija affects the main block of content.
+// Set either 'offset-' variable with a value other than 'false' to choose
+// which type of modification you want to make to the article.
+// You must set the unused value to false.
+
+// Push the article
+$offset-push: 18%;
+
+// Resize the article
+// If using resize, set $offset-width-original to your article's original
+// width. If you don't set it, the article won't transition with an animation.
+$offset-width: false;
+$offset-width-original: 100%;
+
+// Ouija Sizing
 $width: 300px;
 $margin: 10px;
 $controls-width: $margin*4;
+$controls-height: 21px;
 
-//Comments
+// Comments list styling
+$background-color: transparent;
 $avatar-size: 34px;
 $comments-height: 350px;
 $link-color: #57A3E8;
-$border-color: #eee;
+$border-color: fade-out(#222, .9);
 
-//Trigger icon SVG
+// Trigger icon SVG
 $pointer-bg: 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMzFweCIgaGVpZ2h0PSIyMXB4IiB2aWV3Qm94PSIwIDAgMzEgMjEiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMxIDIxIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxwYXRoIGZpbGw9IiNCQkMzQzgiIGQ9Ik0zMSwxMC41QzMxLDE2LjI5OSwyNi4yOTksMjEsMjAuNSwyMVMxLjYyNywxMS42NjIsMS42MjcsMTEuNjYyYy0wLjg5NS0wLjYzOS0wLjg5NS0xLjY4NSwwLTIuMzI1DQoJCUMxLjYyNyw5LjMzNywxNC43MDEsMCwyMC41LDBTMzEsNC43MDEsMzEsMTAuNXoiLz4NCjwvZz4NCjwvc3ZnPg0K';
 
-//Fonts
-$font-sans: 'Open Sans', sans-serif;
-$font-serif: 'Noto Serif', serif;
+// Fonts
+$font-sans: 'Open Sans', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+$font-serif: 'Noto Serif', Georgia, serif;
 
 //Animation speed function
 $time-function: $ease-out-expo;
 
 /* ==========================================================================
-   Ouija Container
+   Reset theme defaults
+   ========================================================================== */
+
+.ouija {
+  text-shadow: none;
+  line-height: 1;
+  font-family: $font-sans;
+  font-weight: normal;
+  h1, h2, h3, h4, h5, h6,
+  p,
+  textarea {
+    margin: 0;
+    padding: 0;
+    font-family: $font-sans;
+    font-weight: normal;
+    text-shadow: none;
+  }
+
+}
+
+/* ==========================================================================
+   Ouija container
    ========================================================================== */
 
 .ouija * { @include box-sizing(border-box); }
@@ -66,7 +102,6 @@ $time-function: $ease-out-expo;
   right: -($controls-width + $margin);
   width: $controls-width;
   z-index: 1000;
-  line-height: 1em;
   overflow: hidden;
 
   //Trigger Button
@@ -79,26 +114,32 @@ $time-function: $ease-out-expo;
 
     a {
       display: block;
+      height: $controls-height;
       padding: 0 0 1px 15px;
+      line-height: 1.6;
       background-image: url(data:image/svg+xml;base64,#{$pointer-bg});
       background-repeat: no-repeat;
       text-decoration: none;
-      font-weight: 900;
+      font-weight: 600;
       font-size: 13px;
-      font-family: $font-sans;
+      font-family: "Helvetica Neue", Arial, sans-serif;
       color: #222;
       -webkit-font-smoothing: antialiased;
       &:hover {
         opacity: 1;
+        text-decoration: none;
+        border: 0;
+        background-color: transparent;
       }
 
       //Add Button
       &.add {
-        font-size: 18px;
+        font-size: 17px;
         &:after {
           display: block;
           content: '+';
-          @include transform-origin(4px 9px);
+          line-height: 1;
+          @include transform-origin(8px 10px);
           @include transition(all .25s linear);
         }
       }
@@ -133,13 +174,14 @@ $time-function: $ease-out-expo;
   .ouija-button {
     position: relative;
     border: 0;
-    padding: $margin/3 $margin/2;
+    padding: $margin/2 $margin;
     border-radius: 2px;
     font-family: $font-sans;
     text-decoration: none;
     background: $link-color;
     font-size: 11px;
     color: white;
+    cursor: pointer;
     @include transition(all .3s linear);
     -webkit-apppearance: none;
     &:hover {
@@ -169,6 +211,8 @@ $time-function: $ease-out-expo;
     width: $width - $controls-width;
     font-size: 13px;
     font-family: $font-sans;
+    background: $background-color;
+    border-radius: 3px;
     @include user-select(none);
 
     //Overflow container
@@ -193,6 +237,8 @@ $time-function: $ease-out-expo;
       top: 2px;
       left: 0;
 
+      figure { display: none; }
+
       img {
         width: $avatar-size;
         height: $avatar-size;
@@ -206,13 +252,17 @@ $time-function: $ease-out-expo;
     .ouija-author {
       font-size: 14px;
       font-weight: 600;
+      margin-bottom: $margin/2;
       a { text-decoration: none; }
     }
 
     .ouija-content {
 
       p {
-        margin: 0;
+        font-size: 13px;
+        line-height: 1.5;
+        padding: 0;
+        margin-bottom: 5px;
       }
 
       textarea {
@@ -223,6 +273,7 @@ $time-function: $ease-out-expo;
         resize-x: none;
         border: 1px solid #ccc;
         border-radius: 2px;
+        font-size: 12px;
         &:focus {
           border: 1px solid #aaa;
           outline: none;
@@ -236,22 +287,26 @@ $time-function: $ease-out-expo;
     }
 
     .ouija-login {
+      padding: $margin;
       text-align: center;
       border-radius: 3px;
       border: 1px solid #ddd;
       background: #f7f7f7;
-      padding: $margin $margin $margin*1.5;
       h5 {
+        margin-bottom: $margin;
         font-size: 12px;
-        color: #999;
         font-weight: 100;
+        color: #999;
       }
       .ouija-button {
+        display: inline-block;
         text-decoration: none;
         font-size: 14px;
         padding: 7px 10px;
-        [class^="icon-"],
-        [class*=" icon-"] {
+        background: $link-color;
+        color: white;
+        [class^='icon-'],
+        [class*=' icon-'] {
           position: relative;
           top: 2px;
           margin-right: 5px;
@@ -261,12 +316,13 @@ $time-function: $ease-out-expo;
 
   //Border separator
   &.ouija-active:after {
-    content: "";
+    content: '';
     position: absolute;
     height: 100%;
     left: 20px;
-    top: -3px;
+    top: 0;
     width: 1px;
+    margin-top: $controls-height + ($margin/1.5);
     background: $border-color;
   }
 
@@ -304,20 +360,33 @@ $loader-color: #222;
    UI States
    ========================================================================== */
 
+@mixin resize-content($offset-push, $offset-width) {
+  @if $offset-push != false {
+   right: $offset-push;
+  }
+  @if $offset-width != false {
+   width: $offset-width;
+  }
+}
 
 .post-ouija {
   position: relative;
   right: 0;
-  @include transition(right .5s $time-function);
+  @if $offset-width = false {
+    width: $offset-width-original;
+  }
+  @include transition(all .5s $time-function);
 
   //Active post
-  &.ouija-active { right: $offset; }
+  &.ouija-active {
+    @include resize-content($offset-push, $offset-width);
+  }
 
   //Trigger Ouija to show on hover of these elements
   p,
   ol,
   ul,
-  > img  {
+  blockquote {
     position: relative;
     &:hover {
       .ouija .ouija-controls {
