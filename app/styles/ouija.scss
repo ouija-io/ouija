@@ -127,6 +127,9 @@ $time-function: $ease-out-expo;
       -webkit-font-smoothing: antialiased;
       &:hover {
         opacity: 1;
+        text-decoration: none;
+        border: 0;
+        background-color: transparent;
       }
 
       //Add Button
@@ -234,6 +237,8 @@ $time-function: $ease-out-expo;
       top: 2px;
       left: 0;
 
+      figure { display: none; }
+
       img {
         width: $avatar-size;
         height: $avatar-size;
@@ -252,6 +257,13 @@ $time-function: $ease-out-expo;
     }
 
     .ouija-content {
+
+      p {
+        font-size: 13px;
+        line-height: 1.5;
+        padding: 0;
+        margin-bottom: 5px;
+      }
 
       textarea {
         width: 100%;
@@ -275,21 +287,24 @@ $time-function: $ease-out-expo;
     }
 
     .ouija-login {
+      padding: $margin;
       text-align: center;
       border-radius: 3px;
       border: 1px solid #ddd;
       background: #f7f7f7;
-      padding: $margin $margin $margin*1.5;
       h5 {
-        margin-bottom: 1em;
+        margin-bottom: $margin;
         font-size: 12px;
         font-weight: 100;
         color: #999;
       }
       .ouija-button {
+        display: inline-block;
         text-decoration: none;
         font-size: 14px;
         padding: 7px 10px;
+        background: $link-color;
+        color: white;
         [class^='icon-'],
         [class*=' icon-'] {
           position: relative;
