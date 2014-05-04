@@ -417,6 +417,7 @@ $loader-color: #222;
   .ouija-comments {
     opacity: 0;
     margin-left: -$width/2;
+    visibility: hidden;
     @include user-select(all);
   }
 
@@ -426,7 +427,10 @@ $loader-color: #222;
     right: - ($width + $margin);
 
     .ouija-controls,
-    .ouija-comments { opacity: 1; }
+    .ouija-comments {
+      opacity: 1;
+      visibility: visible;
+    }
 
     .ouija-controls a {
       opacity: 0.45;
