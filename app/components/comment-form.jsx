@@ -84,7 +84,7 @@ CommentForm.render = function() {
       <div className="ouija-content">
         <textarea ref="content" placeholder="Leave a comment..."></textarea>
         <footer>
-          <button className="text" onClick={ this.handleCancel }>Cancel</button>
+          <button className="text ouija-cancel" onClick={ this.handleCancel }>Cancel</button>
           <button type="submit">Comment</button>
         </footer>
       </div>

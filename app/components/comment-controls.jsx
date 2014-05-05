@@ -13,7 +13,7 @@ var React = require('react');
 
 var AddControl = React.createClass({
   render: function() {
-    return (<a href="#" className="add" onClick={ this.props.onClick }></a>);
+    return (<a href="#" className="add"></a>);
   }
 });
 
@@ -30,7 +30,7 @@ var LoadControl = React.createClass({
 var CountControl = React.createClass({
   render: function() {
     return (
-      <a href="#" className="count"  onClick={ this.props.onClick }>
+      <a href="#" className="count">
         <span>{ this.props.count }</span>
       </a>
     );
@@ -44,16 +44,13 @@ CommentControls.render = function() {
 
   if (!this.props.isLoading) {
     activeControl = (
-      <AddControl
-        onClick={ this.props.onAddClick }
-      />
+      <AddControl />
     );
   }
 
   if (this.props.commentCount) {
     activeControl = (
       <CountControl
-        onClick={ this.props.onAddClick }
         count={ this.props.commentCount }
       />
     );
