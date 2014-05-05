@@ -32,13 +32,19 @@
 // ========================================================================== */
 
 
+// Ouija Sizing
+$width: 300px;
+$margin: 10px;
+$controls-width: $margin*4;
+$controls-height: 21px;
+
 // Ouija affects the main block of content.
 // Set either 'offset-' variable with a value other than 'false' to choose
 // which type of modification you want to make to the article.
 // You must set the unused value to false.
 
 // Push the article
-$offset-push: 18%;
+$offset-push: $width/2;
 
 // Resize the article
 // If using resize, set $offset-width-original to your article's original
@@ -46,11 +52,6 @@ $offset-push: 18%;
 $offset-width: false;
 $offset-width-original: 100%;
 
-// Ouija Sizing
-$width: 300px;
-$margin: 10px;
-$controls-width: $margin*4;
-$controls-height: 21px;
 
 // Comments list styling
 $background-color: transparent;
