@@ -17,6 +17,14 @@ var Users = require('./users');
 
 var Conversation = require('./components/conversation');
 
+var OUIJA_POST_CLASS = 'post-ouija';
+var ACTIVE_CLASS = 'ouija-active';
+var CONTROLS_CLASS = '.ouija-controls';
+var COMMENTS_CLASS = '.ouija-comments';
+var ARTICLE_SEL = 'article';
+var CONVERSATIONS_SEL = 'div.ouija';
+var CANCEL_SEL = 'div.ouija .ouija-cancel';
+
 module.exports = Ouija;
 
 /**
@@ -39,6 +47,12 @@ function Ouija(config) {
     _sectionElements: config.sectionElements,
     _el: {}
   });
+
+  _.bindAll(this, [
+    '_handleControlsClick',
+    '_handleCommentsClick',
+    '_handleCollapseClick'
+  ]);
 }
 
 Ouija.NAMESPACE = 'ouija';
@@ -47,13 +61,15 @@ Ouija.prototype.initialize = function() {
   this._connection = this._connect();
   this._users = new Users(this._connection);
   this._post = new Post(this._identifier, this._connection, this._users);
-  this._el = {};
+
+  this._el.activeConversation = null;
+  this._el.article = $(ARTICLE_SEL);
+  this._el.article.addClass(OUIJA_POST_CLASS);
 
   this._parseContent();
   this._labelSections();
   this._renderSections();
-
-  $('article').addClass('post-ouija');
+  this._registerListeners();
 };
 
 Ouija.prototype._connect = function() {
@@ -102,4 +118,52 @@ Ouija.prototype._renderSections = function() {
       />, $section[0]
     );
   });
+};
+
+Ouija.prototype._registerListeners = function() {
+  $(CONTROLS_CLASS).on('click', this._handleControlsClick);
+  $(CANCEL_SEL).on('click', this._handleCollapseClick);
+  $(COMMENTS_CLASS).on('click', this._handleCommentsClick);
+  $(document).on('click', this._handleCollapseClick);
+};
+
+Ouija.prototype._handleControlsClick = function(e) {
+  e.preventDefault();
+
+  var $conversation = $(e.target).closest(CONVERSATIONS_SEL);
+
+  // Let the event bubble up to document to collapse conversation
+  if ($conversation.hasClass(ACTIVE_CLASS)) {
+    return;
+  }
+
+  // Don't let event bubble up to document
+  e.stopPropagation();
+
+  this._collapseCurrent();
+
+  $conversation.addClass(ACTIVE_CLASS);
+  this._el.article.addClass(ACTIVE_CLASS);
+
+  this._el.activeConversation = $conversation;
+};
+
+Ouija.prototype._handleCommentsClick = function(e) {
+  // Don't let event bubble up to document
+  e.stopPropagation();
+};
+
+Ouija.prototype._handleCollapseClick = function(e) {
+  this._collapseCurrent();
+
+  this._el.article.removeClass(ACTIVE_CLASS);
+};
+
+Ouija.prototype._collapseCurrent = function() {
+  if (!this._el.activeConversation) {
+    return;
+  }
+
+  this._el.activeConversation.removeClass(ACTIVE_CLASS);
+  this._el.activeConversation = null;
 };
