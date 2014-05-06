@@ -279,7 +279,7 @@
   -moz-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
   .post-ouija.ouija-active {
-    right: 18%; }
+    right: 150px; }
   .post-ouija p, .post-ouija ol, .post-ouija ul, .post-ouija blockquote {
     position: relative; }
     .post-ouija p:hover .ouija .ouija-controls, .post-ouija ol:hover .ouija .ouija-controls, .post-ouija ul:hover .ouija .ouija-controls, .post-ouija blockquote:hover .ouija .ouija-controls {
@@ -304,6 +304,7 @@
 .ouija .ouija-comments {
   opacity: 0;
   margin-left: -150px;
+  visibility: hidden;
   -webkit-user-select: all;
   -moz-user-select: all;
   -ms-user-select: all;
@@ -312,7 +313,8 @@
   width: 300px;
   right: -310px; }
   .ouija.ouija-active .ouija-controls, .ouija.ouija-active .ouija-comments {
-    opacity: 1; }
+    opacity: 1;
+    visibility: visible; }
   .ouija.ouija-active .ouija-controls a {
     opacity: 0.45; }
     .ouija.ouija-active .ouija-controls a.add:after {

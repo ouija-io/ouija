@@ -1,3 +1,9 @@
+### v0.1.3
+
+- set comments visiblity to hidden
+- moved sizing variables, updated offset
+- fix(click controls): don't collapse on all clicks
+
 ### v0.1.2
 
 - section_elements option for specifying which elements should display a commenting block
