@@ -64,6 +64,32 @@ GoInstant is used to sync comments in real-time. You'll need to create a new app
 
 1. Copy the contents of `config/acl.json` to your app's ACL. This gives Ouija the correct permissions to run on your blog. You can change your app's ACL under __Security__.
 
+## How to configure Ouija
+
+You can configure Ouija by putting vars on the window before the Ouija script loads.
+
+#### List of available options
+
+| Option | Type | Default | Description |
+|:---|:---|:---|:---|
+| `window.ouija_identifier` | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | N/A | Ghost Post UID. A unique, static ID for the blog post. |
+| `window.ouija_connect_url` | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | N/A | Your GoInstant connect URL. Used for connecting to the [GoInstant platform](https://goinstant.com/). |
+| `window.ouija_article_content` | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | `'.post-content'` | Selector for the section elements' parent. |
+| `window.ouija_section_elements` | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | `'p, ol, :has(img)'` | Selector for which sections in the post should have a comment block. |
+
+#### Example
+
+```html
+  <script>
+    window.ouija_connect_url = 'https://goinstant.net/YOURACCOUNT/YOURAPP';
+    window.ouija_identifier = {{id}};
+    window.ouija_article_content = '.my-post-content' // Optional
+    window.ouija_section_elements = 'p, ol' // Optional
+  </script>
+  <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+  <script src="http://cdn.goinstant.net/external/ouija/latest/ouija.min.js"></script>
+```
+
 ## License
 &copy; 2014 GoInstant Inc., a salesforce.com company. Licensed under the BSD 3-clause license.
 
