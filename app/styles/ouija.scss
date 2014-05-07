@@ -381,6 +381,12 @@ $loader-color: #222;
   //Active post
   &.ouija-active {
     @include resize-content($offset-push, $offset-width);
+
+    //Stop animation when moving to another comment thread
+    .ouija .ouija-comments {
+      // margin-left: 0;
+    }
+
   }
 
   //Trigger Ouija to show on hover of these elements
