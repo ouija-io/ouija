@@ -9,7 +9,7 @@
  * Conversation React Component
  **/
 
-var React = require('react');
+var React = require('react/addons');
 var _ = require('lodash');
 
 var CommentList = require('./comment-list');
@@ -53,8 +53,13 @@ Conversation.componentWillMount = function() {
 };
 
 Conversation.render = function() {
+  var cx = React.addons.classSet;
+  var classes = cx({
+    'ouija-has-comments': this.state.count
+  });
+
   return (
-    <div className="ouija">
+    <div className={ "ouija " + classes }>
       <CommentControls
         isLoading={ this.state.loading }
         commentCount={ this.state.count }

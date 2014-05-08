@@ -420,6 +420,13 @@ $loader-color: #222;
 
   }
 
+  //Show when comments are found
+  &.ouija-has-comments {
+    .ouija-controls {
+      opacity: .75;
+    }
+  }
+
   //Comment List
   .ouija-comments {
     opacity: 0;
