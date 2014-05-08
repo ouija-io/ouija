@@ -73,6 +73,9 @@ Conversation.render = function() {
           onCommentCancel={ this.handleCommentClose }
           users={ this.props.users }
         />
+        <a className="ouija-colophon" href="http://ouija.io" target="_blank">
+          Powered by <span className="ouija-logo">Ouija</span>
+        </a>
       </div>
     </div>
   );
