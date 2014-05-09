@@ -133,6 +133,9 @@ $time-function: $ease-out-expo;
         border: 0;
         background-color: transparent;
       }
+      &:focus {
+        outline: none;
+      }
 
       //Add Button
       &.add {
@@ -215,7 +218,6 @@ $time-function: $ease-out-expo;
     font-family: $font-sans;
     background: $background-color;
     border-radius: 3px;
-    @include user-select(none);
 
     //Overflow container
     > div {
@@ -460,7 +462,6 @@ $loader-color: #222;
     opacity: 0;
     margin-left: -$width/2;
     visibility: hidden;
-    @include user-select(all);
   }
 
   //Active Ouija
