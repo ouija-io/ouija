@@ -1,8 +1,6 @@
 /*jshint browser: true */
 /* global require, module */
 
-'use strict';
-
 /**
  * @fileOverview
  *
@@ -16,8 +14,6 @@ Q.longStackSupport = true;
 
 var USER_PROPERTIES = ['displayName', 'avatarUrl', 'id', 'username'];
 var USER_METADATA = ['status'];
-
-module.exports = Users;
 
 function Users(conn) {
   this._conn = conn;
@@ -128,3 +124,4 @@ Users.prototype.getUser = function(id) {
   return deferred.promise;
 };
 
+module.exports = Users;

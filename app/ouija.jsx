@@ -1,8 +1,6 @@
 /* jshint browser:true */
 /* global require, module, goinstant */
 
-'use strict';
-
 /**
  * @fileOverview
  *
@@ -24,8 +22,6 @@ var COMMENTS_CLASS = '.ouija-comments';
 var ARTICLE_SEL = 'article';
 var CONVERSATIONS_SEL = 'div.ouija';
 var CANCEL_SEL = 'div.ouija .ouija-cancel';
-
-module.exports = Ouija;
 
 /**
  * The Ouija class is responsible for:
@@ -110,6 +106,7 @@ Ouija.prototype._renderSections = function() {
   var self = this;
 
   _.each(self._sections, function($section, sectionName) {
+    /*jshint ignore:start*/
     React.renderComponent(
       <Conversation
         comments={ self._post }
@@ -117,6 +114,7 @@ Ouija.prototype._renderSections = function() {
         section={ sectionName }
       />, $section[0]
     );
+    /*jshint ignore:end*/
   });
 };
 
@@ -167,3 +165,6 @@ Ouija.prototype._collapseCurrent = function() {
   this._el.activeConversation.removeClass(ACTIVE_CLASS);
   this._el.activeConversation = null;
 };
+
+module.exports = Ouija;
+

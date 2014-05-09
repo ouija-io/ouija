@@ -1,8 +1,6 @@
 /* jshint browser:true */
 /* global require */
 
-'use strict';
-
 /**
  * @fileOverview
  *

@@ -1,8 +1,6 @@
 /* jshint browser:true */
 /* global require, module */
 
-'use strict';
-
 /**
  * @fileOverview
  *
@@ -14,8 +12,6 @@ var Q = require('q');
 var Emitter = require('emitter-component');
 
 Q.longStackSupport = true; // TODO: Remove in Beta
-
-module.exports = Post;
 
 /**
  * The Post class abstracts retrieving and adding the comments associated
@@ -152,3 +148,5 @@ Post.prototype.getComments = function(sectionName) {
     return _.sortBy(self._comments[sectionName], 'id') || null;
   });
 };
+
+module.exports = Post;

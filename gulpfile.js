@@ -82,6 +82,13 @@ gulp.task('sass', function() {
     .pipe(gulp.dest(pathTo.distStyles));
 });
 
+gulp.task('lint', function() {
+  return gulp.src(['./app/**.js', './app/**.jsx'])
+    .pipe(plugins.jshint())
+    .pipe(plugins.jshint.reporter('jshint-stylish'))
+    .pipe(plugins.jshint.reporter('fail'));
+});
+
 // Run the develop task when a file change changes
 gulp.task('default', ['develop'], function() {
   gulp.watch(pathTo.watch).on('change', function() {
