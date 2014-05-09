@@ -42,10 +42,10 @@ CommentList.render = function() {
             'avatarUrl'
         ]);
 
-        return (<Comment key={id} author={author}>{comment.content}</Comment>);
+        return (Comment( {key:id, author:author}, comment.content));
     });
 
-    return (<div>{ commentNodes }</div>);
+    return (React.DOM.div(null,  commentNodes ));
 };
 
 module.exports = React.createClass(CommentList);

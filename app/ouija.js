@@ -82,7 +82,7 @@ Ouija.prototype.getSections = function (content) {
             });
 };
 
-Ouija.prototype.parseContent = function() {
+Ouija.prototype.parseContent = function () {
     this.el.content = $(this.articleContent);
     this.el.sections = this.getSections(this.el.content);
 };
@@ -105,11 +105,11 @@ Ouija.prototype.renderSections = function () {
 
     _.each(self.sections, function ($section, sectionName) {
         React.renderComponent(
-            <Conversation
-                comments={ self.post }
-                users={ self.users }
-                section={ sectionName }
-            />, $section[0]
+            Conversation(
+                {comments: self.post, 
+                users: self.users, 
+                section: sectionName }
+            ), $section[0]
         );
     });
 };
@@ -163,4 +163,3 @@ Ouija.prototype.collapseCurrent = function () {
 };
 
 module.exports = Ouija;
-

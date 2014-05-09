@@ -58,22 +58,22 @@ Conversation.render = function () {
         });
 
     return (
-        <div className={ "ouija " + classes }>
-            <CommentControls
-                isLoading={ this.state.loading }
-                commentCount={ this.state.count }
-            />
+        React.DOM.div( {className: "ouija " + classes }, 
+            CommentControls(
+                {isLoading: this.state.loading, 
+                commentCount: this.state.count }
+            ),
 
-            <div className="ouija-comments">
-                <CommentList
-                    data={ this.state.comments } />
-                <CommentForm
-                    onCommentSubmit={ this.handleCommentSubmit }
-                    onCommentCancel={ this.handleCommentClose }
-                    users={ this.props.users }
-                />
-            </div>
-        </div>
+            React.DOM.div( {className:"ouija-comments"}, 
+                CommentList(
+                    {data: this.state.comments } ),
+                CommentForm(
+                    {onCommentSubmit: this.handleCommentSubmit, 
+                    onCommentCancel: this.handleCommentClose, 
+                    users: this.props.users }
+                )
+            )
+        )
     );
 };
 

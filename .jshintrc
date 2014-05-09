@@ -48,14 +48,14 @@
     "unused"        : true,
 
     // Personal styling preferences.
-    "newcap"        : true,   // Require capitalization of all constructor functions e.g. `new F()`.
+    "newcap"        : false,  // Require capitalization of all constructor functions e.g. `new F()`.
     "noempty"       : true,   // Prohibit use of empty blocks.
     "nonew"         : true,   // Prohibit use of constructors for side-effects.
     "nomen"         : true,   // Prohibit use of initial or trailing underbars in names.
-    "onevar"        : true,  // Allow only one `var` statement per function.
-    "plusplus"      : true,  // Prohibit use of `++` & `--`.
-    "sub"           : true,  // Tolerate all forms of subscript notation besides dot notation e.g. `dict['key']` instead of `dict.key`.
+    "onevar"        : true,   // Allow only one `var` statement per function.
+    "plusplus"      : true,   // Prohibit use of `++` & `--`.
+    "sub"           : true,   // Tolerate all forms of subscript notation besides dot notation e.g. `dict['key']` instead of `dict.key`.
     "trailing"      : true,   // Prohibit trailing whitespaces.
-    "white"         : true,  // Check against strict whitespace and indentation rules.
+    "white"         : true,   // Check against strict whitespace and indentation rules.
     "indent"        : 4       // Specify indentation spacing
 }

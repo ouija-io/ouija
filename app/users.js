@@ -44,7 +44,7 @@ Users.prototype.initialize = function () {
     }).fail(this.localDeferred.reject);
 };
 
-Users.prototype._updateUser = function (user) {
+Users.prototype.updateUser = function (user) {
     var self = this;
 
     this.isGuest().then(function (isGuest) {
