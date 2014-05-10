@@ -1,130 +1,125 @@
 /*jshint browser: true */
 /* global require, module */
 
-'use strict';
-
 /**
  * @fileOverview
  *
  * This file should contain a User model, except... it's a mess
  **/
 
-var _ = require('lodash');
-var Q = require('q');
+var _ = require('lodash'),
+    Q = require('q'),
+
+    USER_PROPERTIES = ['displayName', 'avatarUrl', 'id', 'username'];
 
 Q.longStackSupport = true;
 
-var USER_PROPERTIES = ['displayName', 'avatarUrl', 'id', 'username'];
-var USER_METADATA = ['status'];
-
-module.exports = Users;
-
 function Users(conn) {
-  this._conn = conn;
-  this._room = null;
-  this._cacheKey = null;
+    this.conn = conn;
+    this.room = null;
+    this.cacheKey = null;
 
-  this._cache = {};
-  this._users = {};
-  this._localId = null;
-  this._localDeferred = Q.defer();
+    this.cache = {};
+    this.users = {};
+    this.localId = null;
+    this.localDeferred = Q.defer();
 
-  this._initialize();
+    this.initialize();
 }
 
-Users.prototype._initialize = function() {
-  var self = this;
+Users.prototype.initialize = function () {
+    var self = this;
 
-  this._conn.then(function(result) {
-    self._room = result.rooms[0];
-    self._cacheKey = self._room.key('cachedUsers');
+    this.conn.then(function (result) {
+        self.room = result.rooms[0];
+        self.cacheKey = self.room.key('cachedUsers');
 
-    return self._room.self().get();
+        return self.room.self().get();
 
-  }).then(function(result) {
-    var user = result.value;
+    }).then(function (result) {
+        var user = result.value;
 
-    self._localId = user.id;
-    self._updateUser(user);
-  }).fail(this._localDeferred.reject);
+        self.localId = user.id;
+        self.updateUser(user);
+    }).fail(this.localDeferred.reject);
 };
 
-Users.prototype._updateUser = function(user) {
-  var self = this;
+Users.prototype.updateUser = function (user) {
+    var self = this;
 
-  this.isGuest().then(function(isGuest) {
-    if (isGuest) {
-      self._localDeferred.resolve(null);
-      return;
-    }
+    this.isGuest().then(function (isGuest) {
+        if (isGuest) {
+            self.localDeferred.resolve(null);
+            return;
+        }
 
-    user = _.pick(user, USER_PROPERTIES);
-    self._cache[user.id] = user;
+        user = _.pick(user, USER_PROPERTIES);
+        self.cache[user.id] = user;
 
-    self._localDeferred.resolve(user);
+        self.localDeferred.resolve(user);
 
-    _.each(user, function(value, property) {
-      self._cacheKey.key(user.id).key(property).set(value);
+        _.each(user, function (value, property) {
+            self.cacheKey.key(user.id).key(property).set(value);
+        });
     });
-  });
 };
 
-Users.prototype.loginUrl = function() {
-  var deferred = Q.defer();
+Users.prototype.loginUrl = function () {
+    var deferred = Q.defer();
 
-  this._conn.then(function(result) {
-    var url = result.connection.loginUrl('twitter');
+    this.conn.then(function(result) {
+        var url = result.connection.loginUrl('twitter');
 
-    deferred.resolve(url);
-  });
+        deferred.resolve(url);
+    });
 
-  return deferred.promise;
+    return deferred.promise;
 };
 
-Users.prototype.logoutUrl = function() {
-  var deferred = Q.defer();
+Users.prototype.logoutUrl = function () {
+    var deferred = Q.defer();
 
-  this._conn.then(function(result) {
-    var url = result.connection.logoutUrl();
+    this.conn.then(function (result) {
+        var url = result.connection.logoutUrl();
 
-    deferred.resolve(url);
-  });
+        deferred.resolve(url);
+    });
 
-  return deferred.promise;
+    return deferred.promise;
 };
 
-Users.prototype.isGuest = function() {
-  var deferred = Q.defer();
+Users.prototype.isGuest = function () {
+    var deferred = Q.defer();
 
-  this._conn.then(function(result) {
-    var isGuest = result.connection.isGuest();
+    this.conn.then(function(result) {
+        var isGuest = result.connection.isGuest();
 
-    deferred.resolve(isGuest);
-  });
+        deferred.resolve(isGuest);
+    });
 
-  return deferred.promise;
+    return deferred.promise;
 };
 
-Users.prototype.getSelf = function() {
-  return this._localDeferred.promise;
+Users.prototype.getSelf = function () {
+    return this.localDeferred.promise;
 };
 
 Users.prototype.getUser = function(id) {
-  var deferred = Q.defer();
+    var deferred = Q.defer();
 
-  var user = this._cache[id];
+    var user = this.cache[id];
 
-  if (user) {
-    deferred.resolve(user);
+    if (user) {
+        deferred.resolve(user);
+    } else {
+        this.cacheKey.key(id).get().then(function (result) {
+            user = result.value;
 
-  } else {
-    this._cacheKey.key(id).get().then(function(result) {
-      user = result.value;
+            deferred.resolve(user);
+        });
+    }
 
-      deferred.resolve(user);
-    });
-  }
-
-  return deferred.promise;
+    return deferred.promise;
 };
 
+module.exports = Users;
