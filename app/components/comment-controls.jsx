@@ -9,56 +9,58 @@
  * Comment Controls React Component
  **/
 
-var React = require('react');
+var React = require('react'),
+    AddControl,
+    LoadControl,
+    CountControl,
+    CommentControls = {};
 
-var AddControl = React.createClass({
-  render: function() {
-    return (<a href="#" className="add"></a>);
-  }
+AddControl = React.createClass({
+    render: function () {
+        return (<a href="#" className="add"></a>);
+    }
 });
 
-var LoadControl = React.createClass({
-  render: function() {
+LoadControl = React.createClass({
+    render: function () {
+        return (
+            <a href="#" className="loader">
+                <span className="ouija-loader"></span>
+            </a>
+        );
+    }
+});
+
+CountControl = React.createClass({
+    render: function () {
+        return (
+            <a href="#" className="count">
+                <span>{ this.props.count }</span>
+            </a>
+        );
+    }
+});
+
+CommentControls.render = function () {
+    var activeControl = (<LoadControl />);
+
+    if (!this.props.isLoading) {
+        activeControl = (
+            <AddControl />
+        );
+    }
+
+    if (this.props.commentCount) {
+        activeControl = (
+            <CountControl
+                count={ this.props.commentCount }
+            />
+        );
+    }
+
     return (
-      <a href="#" className="loader">
-        <span className="ouija-loader"></span>
-      </a>
+        <div className="ouija-controls">{ activeControl }</div>
     );
-  }
-});
-
-var CountControl = React.createClass({
-  render: function() {
-    return (
-      <a href="#" className="count">
-        <span>{ this.props.count }</span>
-      </a>
-    );
-  }
-});
-
-var CommentControls = {};
-
-CommentControls.render = function() {
-  var activeControl = (<LoadControl />);
-
-  if (!this.props.isLoading) {
-    activeControl = (
-      <AddControl />
-    );
-  }
-
-  if (this.props.commentCount) {
-    activeControl = (
-      <CountControl
-        count={ this.props.commentCount }
-      />
-    );
-  }
-
-  return (
-    <div className="ouija-controls">{ activeControl }</div>
-  );
 };
 
 module.exports = React.createClass(CommentControls);

@@ -83,7 +83,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src(['./app/**.js', './app/**.jsx'])
+  return gulp.src(['./app/*.js', './app/*.jsx', './deploy/*.js'])
     .pipe(plugins.jshint())
     .pipe(plugins.jshint.reporter('jshint-stylish'))
     .pipe(plugins.jshint.reporter('fail'));

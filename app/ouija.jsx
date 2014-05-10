@@ -7,21 +7,19 @@
  * This file contains the hot, gooey class at the center of Ouija
  **/
 
-var React = require('react');
-var _ = require('lodash');
+var _                 = require('lodash'),
+    React             = require('react'),
+    Post              = require('./post'),
+    Users             = require('./users'),
+    Conversation      = require('./components/conversation'),
 
-var Post = require('./post');
-var Users = require('./users');
-
-var Conversation = require('./components/conversation');
-
-var OUIJA_POST_CLASS = 'post-ouija';
-var ACTIVE_CLASS = 'ouija-active';
-var CONTROLS_CLASS = '.ouija-controls';
-var COMMENTS_CLASS = '.ouija-comments';
-var ARTICLE_SEL = 'article';
-var CONVERSATIONS_SEL = 'div.ouija';
-var CANCEL_SEL = 'div.ouija .ouija-cancel';
+    OUIJA_POST_CLASS  = 'post-ouija',
+    ACTIVE_CLASS      = 'ouija-active',
+    CONTROLS_CLASS    = '.ouija-controls',
+    COMMENTS_CLASS    = '.ouija-comments',
+    ARTICLE_SEL       = 'article',
+    CONVERSATIONS_SEL = 'div.ouija',
+    CANCEL_SEL        = 'div.ouija .ouija-cancel';
 
 /**
  * The Ouija class is responsible for:
@@ -36,134 +34,132 @@ var CANCEL_SEL = 'div.ouija .ouija-cancel';
  * @param {Object} config
  */
 function Ouija(config) {
-  _.extend(this, {
-    _url: config.connectUrl,
-    _identifier: config.identifier,
-    _articleContent: config.articleContent,
-    _sectionElements: config.sectionElements,
-    _el: {}
-  });
+    _.extend(this, {
+        url: config.connectUrl,
+        identifier: config.identifier,
+        articleContent: config.articleContent,
+        sectionElements: config.sectionElements,
+        el: {}
+    });
 
-  _.bindAll(this, [
-    '_handleControlsClick',
-    '_handleCommentsClick',
-    '_handleCollapseClick'
-  ]);
+    _.bindAll(this, [
+        'handleControlsClick',
+        'handleCommentsClick',
+        'handleCollapseClick'
+    ]);
 }
 
 Ouija.NAMESPACE = 'ouija';
 
 Ouija.prototype.initialize = function() {
-  this._connection = this._connect();
-  this._users = new Users(this._connection);
-  this._post = new Post(this._identifier, this._connection, this._users);
+    this.connection = this.connect();
+    this.users = new Users(this.connection);
+    this.post = new Post(this.identifier, this.connection, this.users);
 
-  this._el.activeConversation = null;
-  this._el.article = $(ARTICLE_SEL);
-  this._el.article.addClass(OUIJA_POST_CLASS);
+    this.el.activeConversation = null;
+    this.el.article = $(ARTICLE_SEL);
+    this.el.article.addClass(OUIJA_POST_CLASS);
 
-  this._parseContent();
-  this._labelSections();
-  this._renderSections();
-  this._registerListeners();
+    this.parseContent();
+    this.labelSections();
+    this.renderSections();
+    this.registerListeners();
 };
 
-Ouija.prototype._connect = function() {
-  var self = this;
+Ouija.prototype.connect = function () {
+    var self = this;
 
-  return goinstant.connect(this._url, {
-    room: ['lobby', 'post_' + self._identifier]
-  });
+    return goinstant.connect(this.url, {
+        room: ['lobby', 'post_' + self.identifier]
+    });
 };
 
-Ouija.prototype._getSections = function(content) {
-  return content
-      .children(this._sectionElements)
-      .filter(function(el) {
-         return $(el).not(':empty');
-      });
+Ouija.prototype.getSections = function (content) {
+    return content
+            .children(this.sectionElements)
+            .filter(function(el) {
+                 return $(el).not(':empty');
+            });
 };
 
-Ouija.prototype._parseContent = function() {
-  this._el.content = $(this._articleContent);
-  this._el.sections = this._getSections(this._el.content);
+Ouija.prototype.parseContent = function() {
+    this.el.content = $(this.articleContent);
+    this.el.sections = this.getSections(this.el.content);
 };
 
-Ouija.prototype._labelSections = function() {
-  var self = this;
+Ouija.prototype.labelSections = function () {
+    var self = this;
 
-  this._sections = {};
+    this.sections = {};
 
-  _.each(this._el.sections, function(el, index) {
-    var sectionName = 'section_' + index;
-    var $section = $('<section id="' + sectionName + '"></section>').appendTo(el);
+    _.each(this.el.sections, function (elem, index) {
+        var sectionName = 'section_' + index;
+        var $section = $('<section id="' + sectionName + '"></section>').appendTo(elem);
 
-    self._sections[sectionName] = $section;
-  });
+        self.sections[sectionName] = $section;
+    });
 };
 
-Ouija.prototype._renderSections = function() {
-  var self = this;
+Ouija.prototype.renderSections = function () {
+    var self = this;
 
-  _.each(self._sections, function($section, sectionName) {
-    /*jshint ignore:start*/
-    React.renderComponent(
-      <Conversation
-        comments={ self._post }
-        users={ self._users }
-        section={ sectionName }
-      />, $section[0]
-    );
-    /*jshint ignore:end*/
-  });
+    _.each(self.sections, function ($section, sectionName) {
+        React.renderComponent(
+            <Conversation
+                comments={ self.post }
+                users={ self.users }
+                section={ sectionName }
+            />, $section[0]
+        );
+    });
 };
 
-Ouija.prototype._registerListeners = function() {
-  $(CONTROLS_CLASS).on('click', this._handleControlsClick);
-  $(CANCEL_SEL).on('click', this._handleCollapseClick);
-  $(COMMENTS_CLASS).on('click', this._handleCommentsClick);
-  $(document).on('click', this._handleCollapseClick);
+Ouija.prototype.registerListeners = function () {
+    $(CONTROLS_CLASS).on('click', this.handleControlsClick);
+    $(CANCEL_SEL).on('click', this.handleCollapseClick);
+    $(COMMENTS_CLASS).on('click', this.handleCommentsClick);
+    $(document).on('click', this.handleCollapseClick);
 };
 
-Ouija.prototype._handleControlsClick = function(e) {
-  e.preventDefault();
+Ouija.prototype.handleControlsClick = function (e) {
+    e.preventDefault();
 
-  var $conversation = $(e.target).closest(CONVERSATIONS_SEL);
+    var $conversation = $(e.target).closest(CONVERSATIONS_SEL);
 
-  // Let the event bubble up to document to collapse conversation
-  if ($conversation.hasClass(ACTIVE_CLASS)) {
-    return;
-  }
+    // Let the event bubble up to document to collapse conversation
+    if ($conversation.hasClass(ACTIVE_CLASS)) {
+        return;
+    }
 
-  // Don't let event bubble up to document
-  e.stopPropagation();
+    // Don't let event bubble up to document
+    e.stopPropagation();
 
-  this._collapseCurrent();
+    this.collapseCurrent();
 
-  $conversation.addClass(ACTIVE_CLASS);
-  this._el.article.addClass(ACTIVE_CLASS);
+    $conversation.addClass(ACTIVE_CLASS);
+    this.el.article.addClass(ACTIVE_CLASS);
 
-  this._el.activeConversation = $conversation;
+    this.el.activeConversation = $conversation;
 };
 
-Ouija.prototype._handleCommentsClick = function(e) {
-  // Don't let event bubble up to document
-  e.stopPropagation();
+Ouija.prototype.handleCommentsClick = function (e) {
+    // Don't let event bubble up to document
+    e.stopPropagation();
 };
 
-Ouija.prototype._handleCollapseClick = function(e) {
-  this._collapseCurrent();
+Ouija.prototype.handleCollapseClick = function () {
+    this.collapseCurrent();
 
-  this._el.article.removeClass(ACTIVE_CLASS);
+    this.el.article.removeClass(ACTIVE_CLASS);
 };
 
-Ouija.prototype._collapseCurrent = function() {
-  if (!this._el.activeConversation) {
-    return;
-  }
+Ouija.prototype.collapseCurrent = function () {
+    if (!this.el.activeConversation) {
+        return;
+    }
 
-  this._el.activeConversation.removeClass(ACTIVE_CLASS);
-  this._el.activeConversation = null;
+    this.el.activeConversation.removeClass(ACTIVE_CLASS);
+    this.el.activeConversation = null;
 };
 
 module.exports = Ouija;

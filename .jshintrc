@@ -23,8 +23,8 @@
  
  
     // The Good Parts.
-    "asi"           : true,  // Tolerate Automatic Semicolon Insertion (no semicolons).
-    "laxbreak"      : true,   // Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
+    "asi"           : false,  // Tolerate Automatic Semicolon Insertion (no semicolons).
+    "laxbreak"      : false,  // Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
     "bitwise"       : true,   // Prohibit bitwise operators (&, |, ^, etc.).
     "boss"          : false,  // Tolerate assignments inside if, for & while. Usually conditions & loops are for comparison, not assignments.
     "curly"         : true,   // Require {} for every new block or scope.
@@ -44,16 +44,18 @@
     "supernew"      : false,  // Tolerate `new function () { ... };` and `new Object;`.
     "undef"         : true,   // Require all non-global variables be declared before they are used.
  
- 
+    "nomen"         : false,
+    "unused"        : true,
+
     // Personal styling preferences.
     "newcap"        : true,   // Require capitalization of all constructor functions e.g. `new F()`.
     "noempty"       : true,   // Prohibit use of empty blocks.
     "nonew"         : true,   // Prohibit use of constructors for side-effects.
     "nomen"         : true,   // Prohibit use of initial or trailing underbars in names.
     "onevar"        : true,  // Allow only one `var` statement per function.
-    "plusplus"      : false,  // Prohibit use of `++` & `--`.
-    "sub"           : false,  // Tolerate all forms of subscript notation besides dot notation e.g. `dict['key']` instead of `dict.key`.
+    "plusplus"      : true,  // Prohibit use of `++` & `--`.
+    "sub"           : true,  // Tolerate all forms of subscript notation besides dot notation e.g. `dict['key']` instead of `dict.key`.
     "trailing"      : true,   // Prohibit trailing whitespaces.
     "white"         : true,  // Check against strict whitespace and indentation rules.
-    "indent"        : 2       // Specify indentation spacing
+    "indent"        : 4       // Specify indentation spacing
 }

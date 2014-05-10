@@ -9,42 +9,43 @@
  * Comment-list React Component
  **/
 
-var React = require('react');
-var _ = require('lodash');
+var _           = require('lodash'),
+    React       = require('react'),
+    Comment     = require('./comment'),
+    CommentList = {};
 
-var Comment = require('./comment');
+CommentList.componentWillUpdate = function () {
+    var node = this.getDOMNode(),
+        scrollPosition;
 
-var CommentList = {}
-
-CommentList.componentWillUpdate = function() {
-  var node = this.getDOMNode();
-
-  if (node.scrollTop) {
-    var scrollPos = node.scrollTop + node.offsetHeight;
-    this.shouldScrollBottom = scrollPos >= node.scrollHeight*0.8;
-  }
+    if (node.scrollTop) {
+        scrollPosition = node.scrollTop + node.offsetHeight;
+        this.shouldScrollBottom = scrollPosition >= node.scrollHeight*0.8;
+    }
 };
 
-CommentList.componentDidUpdate = function() {
-  if (this.shouldScrollBottom) {
-    var node = this.getDOMNode();
-    node.scrollTop = node.scrollHeight;
-  }
+CommentList.componentDidUpdate = function () {
+    var node;
+
+    if (this.shouldScrollBottom) {
+        node = this.getDOMNode();
+        node.scrollTop = node.scrollHeight;
+    }
 }
 
 CommentList.render = function() {
-  var commentNodes = _.map(this.props.data, function (comment, id) {
-    var author = _.pick(comment, [
-      'displayName',
-      'userId',
-      'username',
-      'avatarUrl'
-    ]);
+    var commentNodes = _.map(this.props.data, function (comment, id) {
+        var author = _.pick(comment, [
+            'displayName',
+            'userId',
+            'username',
+            'avatarUrl'
+        ]);
 
-    return (<Comment key={id} author={author}>{comment.content}</Comment>);
-  });
+        return (<Comment key={id} author={author}>{comment.content}</Comment>);
+    });
 
-  return (<div>{ commentNodes }</div>);
+    return (<div>{ commentNodes }</div>);
 };
 
 module.exports = React.createClass(CommentList);
