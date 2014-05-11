@@ -48,7 +48,6 @@
         "node-bourbon": "~1.2.2",
         "node-hipchat": "0.4.5",
         "react": "^0.10.0",
-        "reactify": "^0.13.1",
         "q": "~1.0.1"
     }
 }

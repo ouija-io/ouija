@@ -91,7 +91,7 @@ Users.prototype.logoutUrl = function () {
 Users.prototype.isGuest = function () {
     var deferred = Q.defer();
 
-    this.conn.then(function(result) {
+    this.conn.then(function (result) {
         var isGuest = result.connection.isGuest();
 
         deferred.resolve(isGuest);

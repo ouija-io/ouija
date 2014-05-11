@@ -1,8 +1,6 @@
 /* jshint browser:true */
 /* global require, module */
 
-'use strict';
-
 /**
  * @fileOverview
  *
@@ -31,7 +29,7 @@ CommentList.componentDidUpdate = function () {
         node = this.getDOMNode();
         node.scrollTop = node.scrollHeight;
     }
-}
+};
 
 CommentList.render = function() {
     var commentNodes = _.map(this.props.data, function (comment, id) {
@@ -42,10 +40,10 @@ CommentList.render = function() {
             'avatarUrl'
         ]);
 
-        return (Comment( {key:id, author:author}, comment.content));
+        return Comment({ key: id, author: author}, comment.content);
     });
 
-    return (React.DOM.div(null,  commentNodes ));
+    return React.DOM.div(null, commentNodes);
 };
 
 module.exports = React.createClass(CommentList);
