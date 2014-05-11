@@ -70,6 +70,7 @@ Conversation.render = function () {
                 onCommentCancel: this.handleCommentClose, 
                 users: this.props.users 
             })
+
         )
     );
 };
