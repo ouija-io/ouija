@@ -57,13 +57,13 @@ Conversation.render = function () {
             'ouija-has-comments': this.state.count
         });
 
-    return React.DOM.div({ className: "ouija " + classes }, 
+    return React.DOM.div({ className: 'ouija ' + classes }, 
         CommentControls({
             isLoading: this.state.loading, 
             commentCount: this.state.count
         }),
 
-        React.DOM.div({ className:"ouija-comments"}, 
+        React.DOM.div({ className:'ouija-comments'}, 
             CommentList({ data: this.state.comments }),
             CommentForm({
                 onCommentSubmit: this.handleCommentSubmit, 

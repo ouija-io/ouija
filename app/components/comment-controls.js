@@ -15,15 +15,15 @@ var React = require('react'),
 
 AddControl = React.createClass({displayName: 'AddControl',
     render: function () {
-        return React.DOM.a({ href: "#", className: "add"});
+        return React.DOM.a({ href: '#', className: 'add'});
     }
 });
 
 LoadControl = React.createClass({
     displayName: 'LoadControl',
     render: function () {
-        return React.DOM.a({ href: "#", className: "loader"}, 
-            React.DOM.span({ className: "ouija-loader"})
+        return React.DOM.a({ href: '#', className: 'loader'}, 
+            React.DOM.span({ className: 'ouija-loader'})
         );
     }
 });
@@ -31,7 +31,7 @@ LoadControl = React.createClass({
 CountControl = React.createClass({
     displayName: 'CountControl',
     render: function () {
-        return React.DOM.a({ href: "#", className: "count"}, 
+        return React.DOM.a({ href: '#', className: 'count'}, 
             React.DOM.span(null, this.props.count )
         );
     }
@@ -50,7 +50,7 @@ CommentControls.render = function () {
         activeControl = CountControl({ count: this.props.commentCount });
     }
 
-    return React.DOM.div({ className: "ouija-controls"},  activeControl);
+    return React.DOM.div({ className: 'ouija-controls'},  activeControl);
 };
 
 module.exports = React.createClass(CommentControls);
