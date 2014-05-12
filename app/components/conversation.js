@@ -1,8 +1,6 @@
 /* jshint browser:true */
 /* global require, module */
 
-'use strict';
-
 /**
  * @fileOverview
  *
@@ -43,7 +41,9 @@ Conversation.componentWillMount = function () {
     });
 
     comments.on('newComment', function (sectionName) {
-        if (sectionName !== self.props.section) return;
+        if (sectionName !== self.props.section) {
+            return;
+        }
 
         self.props.comments.getComments(self.props.section).then(function (data) {
             self.setState({ comments: data, count: _.keys(data).length });
@@ -57,22 +57,19 @@ Conversation.render = function () {
             'ouija-has-comments': this.state.count
         });
 
-    return (
-        React.DOM.div( {className: "ouija " + classes }, 
-            CommentControls(
-                {isLoading: this.state.loading, 
-                commentCount: this.state.count }
-            ),
+    return React.DOM.div({ className: "ouija " + classes }, 
+        CommentControls({
+            isLoading: this.state.loading, 
+            commentCount: this.state.count
+        }),
 
-            React.DOM.div( {className:"ouija-comments"}, 
-                CommentList(
-                    {data: this.state.comments } ),
-                CommentForm(
-                    {onCommentSubmit: this.handleCommentSubmit, 
-                    onCommentCancel: this.handleCommentClose, 
-                    users: this.props.users }
-                )
-            )
+        React.DOM.div({ className:"ouija-comments"}, 
+            CommentList({ data: this.state.comments }),
+            CommentForm({
+                onCommentSubmit: this.handleCommentSubmit, 
+                onCommentCancel: this.handleCommentClose, 
+                users: this.props.users 
+            })
         )
     );
 };
