@@ -11,7 +11,7 @@ var _     = require('lodash'),
     Ouija = require('./ouija'),
     DEFAULTS = {
         articleContent: '.post-content',
-        sectionElements: "p, ol, :has(img)"
+        sectionElements: 'p, ol, :has(img)'
     },
     config,
     ouija;
