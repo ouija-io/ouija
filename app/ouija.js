@@ -105,11 +105,11 @@ Ouija.prototype.renderSections = function () {
 
     _.each(self.sections, function ($section, sectionName) {
         React.renderComponent(
-            Conversation(
-                {comments: self.post, 
+            Conversation({
+                comments: self.post, 
                 users: self.users, 
-                section: sectionName }
-            ), $section[0]
+                section: sectionName 
+            }), $section[0]
         );
     });
 };

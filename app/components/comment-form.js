@@ -31,7 +31,7 @@ CommentForm.componentWillMount = function () {
                 isGuest: true,
                 user: null,
                 loginComponent: (
-                    Login( {loginUrl: loginUrl } )
+                    Login({ loginUrl: loginUrl } )
                 )
             });
         }
@@ -63,6 +63,12 @@ CommentForm.handleCancel = function (e) {
     e.preventDefault();
 };
 
+CommentForm.handleKeyDown = function (e) {
+    if (e.keyCode === 13 && (e.metaKey || e.ctrlKey)) {
+        this.handleSubmit(e);
+    }
+};
+
 CommentForm.render = function () {
     if (this.state && this.state.isGuest) {
         return this.state.loginComponent;
@@ -75,12 +81,12 @@ CommentForm.render = function () {
         React.DOM.div({ className: 'ouija-author'}, 
             React.DOM.a({
                 href: 'https://twitter.com/' + this.state.user.username, 
-                alt: '{ this.state.user.displayName }'
+                alt: this.state.user.displayName
             }, this.state.user.displayName),
             React.DOM.a({ className: 'ouija-button text', href: this.state.logoutUrl }, 'Logout')
         ),
         React.DOM.div({ className: 'ouija-content'}, 
-            React.DOM.textarea({ ref: 'content', placeholder: 'Leave a comment...'}),
+            React.DOM.textarea({ ref: 'content', placeholder: 'Leave a comment...', onKeyDown: this.handleKeyDown}),
             React.DOM.footer(null, 
                 React.DOM.button({ className: 'text ouija-cancel', onClick: this.handleCancel }, 'Cancel'),
                 React.DOM.button({ type: 'submit'}, 'Comment')
