@@ -77,6 +77,8 @@
         text-decoration: none;
         border: 0;
         background-color: transparent; }
+      .ouija .ouija-controls a:focus {
+        outline: none; }
       .ouija .ouija-controls a.add {
         font-size: 17px; }
         .ouija .ouija-controls a.add:after {
@@ -139,11 +141,7 @@
     font-size: 13px;
     font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
     background: transparent;
-    border-radius: 3px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; }
+    border-radius: 3px; }
     .ouija .ouija-comments > div {
       max-height: 350px;
       overflow: auto; }
@@ -221,6 +219,28 @@
     width: 1px;
     margin-top: 27.66667px;
     background: rgba(34, 34, 34, 0.1); }
+  .ouija .ouija-colophon {
+    display: block;
+    float: right;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 0.7em;
+    color: #ccc;
+    letter-spacing: 0.1em;
+    text-decoration: none; }
+    .ouija .ouija-colophon span.ouija-logo {
+      color: #bbb;
+      font-size: 1.1em; }
+      .ouija .ouija-colophon span.ouija-logo:before {
+        content: "";
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-bottom: -2px;
+        background-repeat: no-repeat;
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjExcHgiIGhlaWdodD0iMTJweCIgdmlld0JveD0iMCAwIDExIDEyIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4wLjEgKDc1OTcpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPHRpdGxlPmJhc2Vsb2dvPC90aXRsZT4KICAgIDxkZXNjcmlwdGlvbj5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzY3JpcHRpb24+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8cGF0aCBkPSJNNC4xMjE4MjM1NSw4LjgzNzU4OTI2IEM0LjgwNTg3ODUsOS41MjE2Njc0OSA0LjE3MDMzNzYxLDExLjQxMDI5MDUgNS42NDA2NTE2NCwxMS45MDM1NzgyIEM5LjMyOTQyOTYsMTMuMDk1MTQ5NCAxMS41OTE2NjAzLDIuODYzMDcyMDggMTAuODY0MzI4NCwyLjEzNTY5MjQ5IEMxMC4xMzY5NzIsMS40MDgyODg0MSAtMC4wOTUxNzIzOTcsMy42NzA1ODg1OCAxLjA5NjQyNTM3LDcuMzU5Mzg0NDggQzEuNTg5Njg5NDgsOC44Mjk2NzE0MSAzLjQzNzcxOTYxLDguMTUzNTM1NTMgNC4xMjE4MjM1NSw4LjgzNzU4OTI2IFogTTguNzA3MDk4MSw0LjI5MjkwMDg1IEM5LjA5NzYzMzk3LDQuNjgzNDIxMDEgOS4wOTc2MzM5Nyw1LjMxNjU4OTczIDguNzA3MDk4MSw1LjcwNzEwOTg5IEM4LjMxNjYwNTE4LDYuMDk3NjE1NzIgNy42ODM0MDU1NSw2LjA5NzY0NDM2IDcuMjkyODY5NjgsNS43MDcxMDk4OSBDNi45MDIzNzY3Nyw1LjMxNjU2MTA5IDYuOTAyMzc2NzcsNC42ODMzOTIzNyA3LjI5Mjg2OTY4LDQuMjkyOTAwODUgQzcuNjgzNDA1NTUsMy45MDIzNjYzOCA4LjMxNjU2MjIzLDMuOTAyMzY2MzggOC43MDcwOTgxLDQuMjkyOTAwODUgTDguNzA3MDk4MSw0LjI5MjkwMDg1IFoiIGlkPSJiYXNlIiBmaWxsPSIjRDNEOERCIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2LjAwMDAwMCwgNy4wMDAwMDApIHJvdGF0ZSgtMTUuMDAwMDAwKSB0cmFuc2xhdGUoLTYuMDAwMDAwLCAtNy4wMDAwMDApICI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4=); }
 
 /* ==========================================================================
    Loader
@@ -280,6 +300,8 @@
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
   .post-ouija.ouija-active {
     right: 150px; }
+    .post-ouija.ouija-active .ouija .ouija-comments {
+      margin-left: 0; }
   .post-ouija p, .post-ouija ol, .post-ouija ul, .post-ouija blockquote {
     position: relative; }
     .post-ouija p:hover .ouija .ouija-controls, .post-ouija ol:hover .ouija .ouija-controls, .post-ouija ul:hover .ouija .ouija-controls, .post-ouija blockquote:hover .ouija .ouija-controls {
@@ -301,14 +323,12 @@
     -webkit-transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
     -moz-transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
     transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1); }
+.ouija.ouija-has-comments .ouija-controls {
+  opacity: 0.75; }
 .ouija .ouija-comments {
   opacity: 0;
   margin-left: -150px;
-  visibility: hidden;
-  -webkit-user-select: all;
-  -moz-user-select: all;
-  -ms-user-select: all;
-  user-select: all; }
+  visibility: hidden; }
 .ouija.ouija-active {
   width: 300px;
   right: -310px; }

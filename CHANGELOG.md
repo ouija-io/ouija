@@ -1,6 +1,16 @@
+### v0.1.4
+
+- keep control visible if block has comments
+- disable block transition if ouija is already active
+- added colophon
+- jshint code linting
+- refactor .jsx to .js
+- added keyboard submitting with meta+enter/ctrl+enter
+- fix active state for first comment
+
 ### v0.1.3
 
-- set comments visiblity to hidden
+- set comments visibility to hidden
 - moved sizing variables, updated offset
 - fix(click controls): don't collapse on all clicks
 
