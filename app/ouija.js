@@ -39,7 +39,9 @@ function Ouija(config) {
         identifier: config.identifier,
         articleContent: config.articleContent,
         sectionElements: config.sectionElements,
-        el: {}
+        el: {},
+        conversations: {},
+        activeComponent: null
     });
 
     _.bindAll(this, [
@@ -56,7 +58,6 @@ Ouija.prototype.initialize = function() {
     this.users = new Users(this.connection);
     this.post = new Post(this.identifier, this.connection, this.users);
 
-    this.el.activeConversation = null;
     this.el.article = $(ARTICLE_SEL);
     this.el.article.addClass(OUIJA_POST_CLASS);
 
@@ -104,11 +105,11 @@ Ouija.prototype.renderSections = function () {
     var self = this;
 
     _.each(self.sections, function ($section, sectionName) {
-        React.renderComponent(
+        self.conversations[sectionName] = React.renderComponent(
             Conversation({
-                comments: self.post, 
-                users: self.users, 
-                section: sectionName 
+                comments: self.post,
+                users: self.users,
+                section: sectionName
             }), $section[0]
         );
     });
@@ -125,9 +126,11 @@ Ouija.prototype.handleControlsClick = function (e) {
     e.preventDefault();
 
     var $conversation = $(e.target).closest(CONVERSATIONS_SEL);
+    var sectionName = $conversation.parent().attr('id');
+    var component = this.conversations[sectionName];
 
     // Let the event bubble up to document to collapse conversation
-    if ($conversation.hasClass(ACTIVE_CLASS)) {
+    if (component.state.isActive) {
         return;
     }
 
@@ -136,10 +139,10 @@ Ouija.prototype.handleControlsClick = function (e) {
 
     this.collapseCurrent();
 
-    $conversation.addClass(ACTIVE_CLASS);
+    component.setState({ isActive: true });
     this.el.article.addClass(ACTIVE_CLASS);
 
-    this.el.activeConversation = $conversation;
+    this.activeComponent = component;
 };
 
 Ouija.prototype.handleCommentsClick = function (e) {
@@ -154,12 +157,12 @@ Ouija.prototype.handleCollapseClick = function () {
 };
 
 Ouija.prototype.collapseCurrent = function () {
-    if (!this.el.activeConversation) {
+    if (!this.activeComponent) {
         return;
     }
 
-    this.el.activeConversation.removeClass(ACTIVE_CLASS);
-    this.el.activeConversation = null;
+    this.activeComponent.setState({ isActive: false });
+    this.activeComponent = null;
 };
 
 module.exports = Ouija;
