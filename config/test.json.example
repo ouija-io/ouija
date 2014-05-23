@@ -1,0 +1,19 @@
+{
+  "secretKey" : "",
+  "credentials" : {
+      "client_id": "",
+      "client_secret" : ""
+  },
+  "postUrl" : "http://localhost:2368/welcome-to-ghost/",
+  "fakeUserClaim" : {
+      "domain" : "funcTestGhost.com",
+      "id" : "funcTestUser",
+      "displayName" : "aFuncTestUser",
+      "groups": [
+          {
+              "id" : "funcTestGroupId",
+              "displayName" : "funcTestGroupDisplayName"
+          }
+      ]
+  }
+}
