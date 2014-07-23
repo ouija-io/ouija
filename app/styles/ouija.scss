@@ -24,13 +24,16 @@
 
    ========================================================================== */
 
-@import 'bourbon';
+@import '../../node_modules/node-bourbon/assets/stylesheets/bourbon';
 
 // ========================================================================== */
 // Templating Variables
 // Use these variables to tweak Ouija to work with your theme.
 // ========================================================================== */
 
+// Trigger elements
+// Elements in the post content that
+$triggers: p, ol, ul, blockquote;
 
 // Ouija Sizing
 $width: 300px;
@@ -403,7 +406,7 @@ $loader-color: #222;
 .post-ouija {
   position: relative;
   right: 0;
-  @if $offset-width = false {
+  @if $offset-width == false {
     width: $offset-width-original;
   }
   @include transition(all .5s $time-function);
@@ -420,10 +423,7 @@ $loader-color: #222;
   }
 
   //Trigger Ouija to show on hover of these elements
-  p,
-  ol,
-  ul,
-  blockquote {
+  #{$triggers} {
     position: relative;
     &:hover {
       .ouija .ouija-controls {
@@ -485,9 +485,109 @@ $loader-color: #222;
 
     .ouija-comments {
       margin-left: 0;
-      @include transition(all .25s $time-function, margin-left .5s $time-function);
+      @include transition(all .25s $time-function, margin-left .5s $time-function, margin-bottom .5s $time-function);
     }
 
   }
 
 }
+
+
+/* ==========================================================================
+   Responsive Styling
+   Edit these styles to change how Ouija works on mobile devices
+   and small screens
+   ========================================================================== */
+
+$mobile-width: 600px;
+
+@media all and (max-width: $mobile-width) {
+
+  //Update this if your theme uses a different selector for the post's content.
+  .post-ouija {
+    > section,
+    > .post-content {
+      padding-right: 25px;
+    }
+    &.ouija-active {
+      right: 0;
+      #{$triggers} {
+        position: static;
+      }
+      .ouija-controls {
+        display: none;
+      }
+    }
+  }
+
+
+  .ouija {
+    right: -45px;
+    .ouija-comments {
+      position: fixed;
+      bottom: 0;
+      float: none;
+      width: 100%;
+      padding: 15px;
+      margin-left: 0;
+      margin-bottom: -25%;
+      > div {
+        margin-bottom: 15px;
+        background: white;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+    &.ouija-has-comments {
+      .ouija-comments {
+        > div {
+          padding: 15px 15px 0;
+          border: 1px solid #ccc;
+          border-radius: 3px;
+        }
+      }
+    }
+    &.ouija-active {
+      position: fixed;
+      top: auto;
+      left: 0;
+      right: auto;
+      bottom: 0;
+      height: 100%;
+      width: 100%;
+      background: fade-out(white, .15);
+      @include linear-gradient(fade-out(white, .25), white, $fallback: transparent);
+
+      &:after {
+        display: none;
+      }
+      .ouija-controls {
+        display: block;
+        float: right;
+        margin-top: 15px;
+        a {
+          opacity: .8;
+          &.count, &.add {
+            background: transparent;
+            span { display: none; }
+            &:after {
+              display: block;
+              content: '+';
+              line-height: 1;
+              font-size: 36px;
+              @include transform-origin(8px 10px);
+              @include transition(all 0 linear);
+              @include transform(rotate(45deg));
+            }
+          }
+        }
+      }
+      .ouija-comments {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+}
+
+
