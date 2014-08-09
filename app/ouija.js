@@ -35,6 +35,7 @@ var _                 = require('lodash'),
  */
 function Ouija(config) {
     _.extend(this, {
+        test: config.test,
         url: config.connectUrl,
         identifier: config.identifier,
         articleContent: config.articleContent,
@@ -53,7 +54,7 @@ function Ouija(config) {
 
 Ouija.NAMESPACE = 'ouija';
 
-Ouija.prototype.initialize = function() {
+Ouija.prototype.initialize = function () {
     this.connection = this.connect();
     this.users = new Users(this.connection);
     this.post = new Post(this.identifier, this.connection, this.users);
@@ -65,21 +66,27 @@ Ouija.prototype.initialize = function() {
     this.labelSections();
     this.renderSections();
     this.registerListeners();
+
+    return this;
 };
 
 Ouija.prototype.connect = function () {
-    var self = this;
+    var opts = {};
 
-    return goinstant.connect(this.url, {
-        room: ['lobby', 'post_' + self.identifier]
-    });
+    opts.room = ['lobby', 'post_' + this.identifier];
+
+    if (window.ouija_jwt) {
+        opts.user = window.ouija_jwt;
+    }
+
+    return goinstant.connect(this.url, opts);
 };
 
 Ouija.prototype.getSections = function (content) {
     return content
             .children(this.sectionElements)
-            .filter(function(el) {
-                 return $(el).not(':empty');
+            .filter(function (el) {
+                return $(el).not(':empty');
             });
 };
 

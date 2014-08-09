@@ -10,13 +10,15 @@
 var _     = require('lodash'),
     Ouija = require('./ouija'),
     DEFAULTS = {
+        initialize: true,
         articleContent: '.post-content',
         sectionElements: 'p, ol, :has(img)'
     },
-    config,
-    ouija;
+    config;
 
 config = {
+    test: window.ouija_test,
+    initialize: window.ouija_initialize,
     identifier: window.ouija_identifier, // Ghost Post UID
     connectUrl: window.ouija_connect_url, // GoInstant connect URL
     articleContent: window.ouija_article_content, // Selector for article content
@@ -25,6 +27,8 @@ config = {
 
 config = _.defaults(config, DEFAULTS);
 
-ouija = new Ouija(config);
+window.ouija = new Ouija(config);
 
-ouija.initialize();
+if (config.initialize) {
+    window.ouija.initialize();
+}

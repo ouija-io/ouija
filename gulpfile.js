@@ -2,6 +2,7 @@
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
+    dalek = require('gulp-dalek'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     minifyCss = require('gulp-minify-css'),
     plugins = gulpLoadPlugins(),
@@ -78,7 +79,9 @@ gulp.task('lint', function () {
         .pipe(plugins.jshint.reporter('fail'));
 });
 
-gulp.task('test', ['lint']);
+gulp.task('test', function () {
+    gulp.src(['test/functional/base.js']).pipe(dalek());
+});
 
 // Run the develop task when a file change changes
 gulp.task('default', ['develop'], function () {
