@@ -1,4 +1,4 @@
 node_modules
 ouija.json
-
+dist/
 .DS_Store
