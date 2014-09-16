@@ -9,7 +9,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/goinstant/ouija.git"
+        "url": "git://github.com/ouija-io/ouija.git"
     },
     "keywords": [
         "Comments",
@@ -19,11 +19,12 @@
     "contributors": [
         "Matthew Creager <mattcreager@goinstant.com>",
         "Colin MacDonald <colin@goinstant.com>",
-        "Nick Tassone <nicktassone@goinstant.com>"
+        "Nick Tassone <nicktassone@goinstant.com>",
+        "Fabian Becker <halfdan@xnorfz.de>"
     ],
     "license": "BSD-3-Clause",
     "bugs": {
-        "url": "https://github.com/goinstant/ouija/issues"
+        "url": "https://github.com/ouija-ui/ouija/issues"
     },
     "devDependencies": {
         "async": "0.7.0",
